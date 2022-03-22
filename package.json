@@ -4,7 +4,8 @@
   "description": "API job&talent",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "nodemon src/index.ts",
+    "start": "tsc && node .",
+    "dev": "tsc -w & nodemon -q -w dist .",
     "test": "jest --verbose --coverage",
     "lint": "eslint . --ext .ts"
   },
