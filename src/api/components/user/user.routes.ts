@@ -2,16 +2,7 @@ import { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import { Router } from 'express';
 
-const memory = [
-  {
-    name: 'Andres',
-    surName: 'Ayelo',
-    email: 'ayelo@ayelo.com',
-    password: '1122',
-    phone: '+34 6677746663',
-    address: 'calle mayor',
-  },
-];
+const memory:Array<any> = [];
 
 const router = Router();
 router.use(bodyParser.json());
