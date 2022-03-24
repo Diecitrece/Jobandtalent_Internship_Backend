@@ -5,12 +5,8 @@ import { User } from './model';
 import { v4 as uuidv4 } from 'uuid';
 
 const usersInMemory: User[] = [];
-let id = '';
 
-const generateId = (): string => {
-  id = uuidv4();
-  return id;
-};
+const generateId = (): string => uuidv4();
 
 const router = Router();
 router.use(bodyParser.json());
