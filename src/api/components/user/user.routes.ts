@@ -1,18 +1,19 @@
 import { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import { Router } from 'express';
+import { User } from './model';
 
-const memory:Array<any> = [];
+const usersInMemory: User[] = [];
 
 const router = Router();
 router.use(bodyParser.json());
 
 router.get('/api/users', (req: Request, res: Response) => {
-  res.json(memory);
+  res.json(usersInMemory);
 });
 
 router.post('/api/users', (req: Request, res: Response) => {
-  memory.push(req.body);
+  usersInMemory.push(req.body);
   res.json(req.body);
 });
 
