@@ -3,6 +3,8 @@ import bodyParser from 'body-parser';
 import { Router } from 'express';
 import { User } from './model';
 import { v4 as uuidv4 } from 'uuid';
+import './services/mail';
+import sendEmail from './services/mail';
 
 const usersInMemory: User[] = [];
 
@@ -21,5 +23,8 @@ router.post('/api/users', (req: Request, res: Response) => {
   usersInMemory.push(req.body);
   res.json(req.body);
 });
-
+router.get('/send_email', (req: Request, res: Response) => {
+  let response = sendEmail();
+  res.send(response)
+});
 export default router;
