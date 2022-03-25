@@ -18,8 +18,9 @@ router.get('/api/users', (req: Request, res: Response) => {
 
 router.post('/api/users', (req: Request, res: Response) => {
   const user: User = req.body;
-  if (schemaUserRegister.validate(user).error)
+  if (schemaUserRegister.validate(user).error) {
     return res.send(schemaUserRegister.validate(user).error?.details);
+  }
 
   user.id = generateId();
   res.json(user);
