@@ -1,5 +1,3 @@
-import Joi from 'joi';
-
 export interface User {
   id: string;
   firstName: string;
@@ -9,11 +7,3 @@ export interface User {
   phone: string;
   address: string;
 }
-
-export const schema = Joi.object({
-  firstName: Joi.string(),
-  surNames: Joi.string(),
-  email: Joi.string().required(),
-  password: Joi.string().required(),
-  phone: Joi.string(),
-});

@@ -695,7 +695,7 @@
     "@types/qs" "*"
     "@types/range-parser" "*"
 
-"@types/express@^4.17.13", "@types/express@4.x.x":
+"@types/express@^4.17.13":
   "integrity" "sha512-6bSZTPaTIACxn48l50SR+axgrqm6qXFIxrdAKaG6PaJk3+zuUr35hBlgT7vOmJcum+OEaIBLtHV/qloEAFITeA=="
   "resolved" "https://registry.npmjs.org/@types/express/-/express-4.17.13.tgz"
   "version" "4.17.13"
@@ -711,11 +711,6 @@
   "version" "4.1.5"
   dependencies:
     "@types/node" "*"
-
-"@types/hapi__joi@16.x.x":
-  "integrity" "sha512-xJYifuz59jXdWY5JMS15uvA3ycS3nQYOGqoIIE0+fwQ0qI3/4CxBc6RHsOTp6wk9M0NWEdpcTl02lOQOKMifbQ=="
-  "resolved" "https://registry.npmjs.org/@types/hapi__joi/-/hapi__joi-16.0.12.tgz"
-  "version" "16.0.12"
 
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0", "@types/istanbul-lib-coverage@^2.0.1":
   "integrity" "sha512-z/QT1XN4K4KYuslS23k62yDIDLwLFkzxOuMplDtObz0+y7VqJCaO2o+SPwHCvLFZh7xazvvoor2tA/hPz9ee7g=="
@@ -1792,15 +1787,6 @@
     "jest-matcher-utils" "^27.5.1"
     "jest-message-util" "^27.5.1"
 
-"express-validation@^3.0.8":
-  "integrity" "sha512-jyEEysGLpZ1C9WKkLct44CQYlTQ7MR9olTjOo38kkl+NdqwnWBB5UJapPMG+NMxnjvHnT9/+X1RMQjuT1nLCwg=="
-  "resolved" "https://registry.npmjs.org/express-validation/-/express-validation-3.0.8.tgz"
-  "version" "3.0.8"
-  dependencies:
-    "@types/express" "4.x.x"
-    "@types/hapi__joi" "16.x.x"
-    "joi" "17.x.x"
-
 "express@^4.17.3":
   "integrity" "sha512-yuSQpz5I+Ch7gFrPCk4/c+dIBKlQUxtgwqzph132bsT6qhuzss6I8cLJQz7B3rFblzd6wtcI0ZbGltH/C4LjUg=="
   "resolved" "https://registry.npmjs.org/express/-/express-4.17.3.tgz"
@@ -2782,7 +2768,7 @@
     "import-local" "^3.0.2"
     "jest-cli" "^27.5.1"
 
-"joi@^17.6.0", "joi@17.x.x":
+"joi@^17.6.0":
   "integrity" "sha512-OX5dG6DTbcr/kbMFj0KGYxuew69HPcAE3K/sZpEV2nP6e/j/C0HV+HNiBPCASxdx5T7DMoa0s8UeHWMnb6n2zw=="
   "resolved" "https://registry.npmjs.org/joi/-/joi-17.6.0.tgz"
   "version" "17.6.0"
