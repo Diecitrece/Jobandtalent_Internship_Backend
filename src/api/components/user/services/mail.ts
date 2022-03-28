@@ -1,6 +1,7 @@
-import nodemailer from 'nodemailer';
 import 'dotenv/config';
-export default async function sendEmail() {
+import nodemailer from 'nodemailer';
+import { User } from '../model';
+export default async function sendEmail(user: User) {
   const transporter = nodemailer.createTransport({
     host: 'smtp.zoho.eu',
     secure: true,
@@ -12,14 +13,11 @@ export default async function sendEmail() {
   });
   const mailData = {
     from: process.env.EMAIL_NODEMAILER,
-    to: 'juanfril@gmail.com',
+    to: user.email,
     subject: `Message From A-Team-Project`,
-    text: 'Hello world',
+    text: `Hello ${user.firstName}`,
   };
-  try {
-    const response = await transporter.sendMail(mailData);
-    return response;
-  } catch (err) {
-    return err;
-  }
+
+  const response = await transporter.sendMail(mailData);
+  return response;
 }
