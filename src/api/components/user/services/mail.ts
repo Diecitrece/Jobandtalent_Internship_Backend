@@ -18,6 +18,14 @@ export default async function sendEmail(user: User) {
     text: `Hello ${user.firstName}`,
   };
 
-  const response = await transporter.sendMail(mailData);
+  transporter.verify((error, success) => {
+    if (error) {
+      console.log(`error: ${error}`);
+    } else {
+      console.log('Server is ready to take our messages', success);
+    }
+  });
+
+  const response = transporter.sendMail(mailData);
   return response;
 }

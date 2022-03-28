@@ -20,9 +20,8 @@ router.post('/api/users', (req: Request, res: Response) => {
   const user = req.body;
   user.id = generateId();
   sendEmail(user);
-
   usersInMemory.push(req.body);
-  res.json(req.body);
+  res.send(user);
 });
 
 export default router;
