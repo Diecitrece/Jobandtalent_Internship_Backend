@@ -4,6 +4,7 @@ import { Router } from 'express';
 import { User } from './model';
 import { v4 as uuidv4 } from 'uuid';
 import sendEmail from './services/mail';
+import { schemaUserRegister } from './services/validations/user_register.validation';
 
 const usersInMemory: User[] = [];
 
@@ -17,11 +18,15 @@ router.get('/api/users', (req: Request, res: Response) => {
 });
 
 router.post('/api/users', (req: Request, res: Response) => {
-  const user = req.body;
+  const user: User = req.body;
+  if (schemaUserRegister.validate(user).error) {
+    return res.send(schemaUserRegister.validate(user).error?.details);
+  }
+
   user.id = generateId();
   sendEmail(user);
-  usersInMemory.push(req.body);
   res.send(user);
+  usersInMemory.push(user);
 });
 
 export default router;
