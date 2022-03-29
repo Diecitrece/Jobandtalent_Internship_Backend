@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import nodemailer from 'nodemailer';
 import { User } from '../model';
 export default async function sendEmail(user: User) {
