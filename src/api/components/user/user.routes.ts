@@ -4,13 +4,16 @@ import { Router } from 'express';
 import { User } from './model';
 import sendEmail from './services/mail';
 import { schemaUserRegister } from './services/validations/user_register.validation';
-import { db } from '../../../database/db-conection';
+import { getUsers, addUser } from '../../../database/db-conection';
+import { v4 } from 'uuid';
 
 const router = Router();
 router.use(bodyParser.json());
 
+const generateId = () => v4();
+
 router.get('/api/users', async (req: Request, res: Response) => {
-  const users = await db<User[]>('users').select('*');
+  const users = await getUsers();
   res.json(users);
 });
 
@@ -19,16 +22,15 @@ router.post('/api/users', async (req: Request, res: Response) => {
   if (schemaUserRegister.validate(user).error) {
     return res.send(schemaUserRegister.validate(user).error?.details);
   }
-  const userExists = await db<User>('users')
-    .where({ email: user.email })
-    .first();
-  if (userExists) {
-    return res.send('User already exists');
-  }
-  const userCreated = await db<User>('users').insert(user);
-  if (userCreated) {
-    sendEmail(user);
-    return res.json(userCreated);
+  user.id = generateId();
+  try {
+    const userCreated = await addUser(user);
+    if (userCreated) {
+      sendEmail(user);
+      return res.json(userCreated);
+    }
+  } catch (error) {
+    return res.json(error);
   }
 });
 
