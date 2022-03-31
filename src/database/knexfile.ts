@@ -1,6 +1,8 @@
-import 'dotenv/config';
+import dotenv from 'dotenv'
 import { Knex } from 'knex';
 import path from 'path';
+
+dotenv.config({ path: '../../.env' })
 
 const knexConfig: Knex.Config = {
   client: 'postgresql',
@@ -19,5 +21,8 @@ const knexConfig: Knex.Config = {
     tableName: 'knex_migrations',
     directory: path.join(__dirname, './migrations'),
   },
+  seeds: {
+    directory: './seeds',
+  }
 };
 export default knexConfig;
