@@ -2,6 +2,7 @@ import { Knex } from "knex";
 import { v4 } from 'uuid';
 import { faker } from '@faker-js/faker';
 import PromptSync from 'prompt-sync';
+import password_crypt from "../../api/components/user/services/password_crypt";
 
 const generateId = () => v4();
 function promptUserNumber():number
@@ -30,7 +31,7 @@ export async function seed(knex: Knex): Promise<void> {
                 firstName: faker.name.firstName(), 
                 surNames: faker.name.lastName(),
                 email: faker.internet.email(), 
-                password: faker.internet.password(6), 
+                password: await password_crypt(faker.internet.password(6)), 
                 phone: faker.phone.phoneNumber('##############'), 
                 address: faker.address.streetAddress(),
             }

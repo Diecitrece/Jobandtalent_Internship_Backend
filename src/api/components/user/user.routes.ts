@@ -6,6 +6,7 @@ import sendEmail from './services/mail';
 import { schemaUserRegister } from './services/validations/user_register.validation';
 import { getUsers, addUser } from '../../../database/db-conection';
 import { v4 } from 'uuid';
+import password_crypt from './services/password_crypt';
 
 const router = Router();
 router.use(bodyParser.json());
@@ -23,6 +24,7 @@ router.post('/api/users', async (req: Request, res: Response) => {
     return res.send(schemaUserRegister.validate(user).error?.details);
   }
   user.id = generateId();
+  user.password = await password_crypt(user.password);
   try {
     const userCreated = await addUser(user);
     if (userCreated) {
