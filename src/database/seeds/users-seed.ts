@@ -1,49 +1,39 @@
 import { Knex } from "knex";
 import { v4 } from 'uuid';
+import { faker } from '@faker-js/faker';
+import PromptSync from 'prompt-sync';
 
 const generateId = () => v4();
-
+function promptUserNumber():number
+{
+    let userNumber:number = 0;
+    let prompt = PromptSync();
+    console.log('How many users will be seeded?');
+    let n:string = prompt('--> ');
+    if(Number(n))
+    {
+        userNumber = Math.floor(Number(n));
+    }
+    return userNumber;
+}
 export async function seed(knex: Knex): Promise<void> {
+    let userNumber = promptUserNumber();
     // Deletes ALL existing entries
-    await knex("users").del();
+    await knex("users").truncate();
 
     // Inserts seed entries
-    await knex("users").insert([
-        { 
-            id: generateId(), 
-            firstName: 'usuarioDePrueba', 
-            surNames: 'Uno', 
-            email: 'uno@prueba.test', 
-            password: '4321', 
-            phone: '43214321432143', 
-            address: 'Dirección del usuario de prueba Uno' 
-        },
-        { 
-            id: generateId(), 
-            firstName: 'usuarioDePrueba', 
-            surNames: 'Dos', 
-            email: 'dos@prueba.test', 
-            password: '5432', 
-            phone: '54325432543254', 
-            address: 'Dirección del usuario de prueba Dos' 
-        },
-        { 
-            id: generateId(), 
-            firstName: 'usuarioDePrueba', 
-            surNames: 'Tres', 
-            email: 'tres@prueba.test', 
-            password: '6543', 
-            phone: '65436543654365', 
-            address: 'Dirección del usuario de prueba Tres' 
-        },
-        { 
-            id: generateId(), 
-            firstName: 'usuarioDePrueba', 
-            surNames: 'Cuatro', 
-            email: 'cuatro@prueba.test', 
-            password: '7654', 
-            phone: '76547654765476', 
-            address: 'Dirección del usuario de prueba Cuatro' 
-        },
-    ]);
+    for(let i=0;i<userNumber;i++)
+    {
+        await knex("users").insert([
+            { 
+                id: generateId(), 
+                firstName: faker.name.firstName(), 
+                surNames: faker.name.lastName(),
+                email: faker.internet.email(), 
+                password: faker.internet.password(6), 
+                phone: faker.phone.phoneNumber('##############'), 
+                address: faker.address.streetAddress(),
+            }
+        ]);
+    }
 };
