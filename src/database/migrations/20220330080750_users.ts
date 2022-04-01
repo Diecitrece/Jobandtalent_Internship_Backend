@@ -1,14 +1,15 @@
 import { Knex } from 'knex';
 
 export async function up(knex: Knex): Promise<void> {
-  return knex.schema.createTable('users', (table) => {
-    table.uuid('id').unique().primary();
-    table.string('firstName');
-    table.string('surNames');
-    table.string('email').unique();
-    table.string('password');
-    table.string('phone');
-    table.string('address');
+  await knex.schema.createTable('users', (table: Knex.TableBuilder) => {
+    table.uuid('id').unique().primary().notNullable();
+    table.string('firstName').nullable();
+    table.string('surNames').nullable();
+    table.string('email').unique().notNullable();
+    table.string('password').notNullable();
+    table.string('phone').nullable();
+    table.string('address').nullable();
+    table.timestamps(true, true);
   });
 }
 

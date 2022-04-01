@@ -1,8 +1,8 @@
 import { knex } from 'knex';
 import { User } from '../api/components/user/model';
-import knexConfig from './knexfile';
+import configs from './knexfile';
 
-const db = knex(knexConfig);
+const db = knex(configs.development);
 
 export const getUsers = async (): Promise<User[]> => {
   return db('users').select('*');
