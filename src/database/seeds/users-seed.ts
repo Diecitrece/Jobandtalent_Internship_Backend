@@ -17,7 +17,7 @@ function promptUserNumber():number
     return userNumber;
 }
 export async function seed(knex: Knex): Promise<void> {
-    let userNumber = promptUserNumber();
+    let userNumber:number = promptUserNumber();
     // Deletes ALL existing entries
     await knex("users").truncate();
 
