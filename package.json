@@ -6,10 +6,10 @@
   "scripts": {
     "start": "tsc && node .",
     "dev": "tsc -w & nodemon -q -w dist .",
+    "makeSeeds": "yarn knex seed:run --knexfile ./src/database/knexfile.ts users-seed",
     "test": "jest --verbose --coverage",
     "lint": "eslint . --ext .ts",
-    "migrate": "yarn knex migrate:latest --knexfile ./src/database/knexfile.ts",
-    "makeSeeds": "yarn knex seed:run --specific=seeds/users-seed.ts"
+    "migrate": "yarn knex migrate:latest --knexfile ./src/database/knexfile.ts"
   },
   "repository": {
     "type": "git",

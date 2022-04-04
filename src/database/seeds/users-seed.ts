@@ -40,17 +40,4 @@ export async function seed(knex: Knex): Promise<void> {
   };
 
   await generateUser(userNumber);
-  /* for (let i = 0; i < userNumber; i++) {
-    await knex('users').insert([
-      {
-        id: generateId(),
-        firstName: faker.name.firstName(),
-        surNames: faker.name.lastName(),
-        email: faker.internet.email(),
-        password: await password_crypt(faker.internet.password(6)),
-        phone: faker.phone.phoneNumber('##############'),
-        address: faker.address.streetAddress(),
-      },
-    ]);
-  }  */
 }
