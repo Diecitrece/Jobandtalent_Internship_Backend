@@ -8,7 +8,8 @@
     "dev": "tsc -w & nodemon -q -w dist .",
     "test": "jest --verbose --coverage",
     "lint": "eslint . --ext .ts",
-    "migrate": "yarn knex migrate:latest --knexfile ./src/database/knexfile.ts"
+    "migrate": "yarn knex migrate:latest --knexfile ./src/database/knexfile.ts",
+    "makeSeeds": "yarn knex seed:run --specific=seeds/users-seed.ts"
   },
   "repository": {
     "type": "git",

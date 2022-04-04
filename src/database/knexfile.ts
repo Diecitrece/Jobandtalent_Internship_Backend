@@ -26,8 +26,5 @@ const configs: KnexConfig = {
       tableName: 'knex_migrations',
     },
   },
-  seeds: {
-    directory: './seeds',
-  }
 };
 export default configs;
