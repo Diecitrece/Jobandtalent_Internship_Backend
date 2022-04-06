@@ -36,4 +36,8 @@ router.post('/api/users', async (req: Request, res: Response) => {
   }
 });
 
+router.post('/api/login', async (req: Request, res: Response) => {
+  res.json(req.body);
+});
+
 export default router;
