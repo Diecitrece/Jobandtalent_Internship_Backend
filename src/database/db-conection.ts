@@ -8,6 +8,10 @@ export const getUsers = async (): Promise<User[]> => {
   return db('users').select('*');
 };
 
+export const sum = (a: number, b: number): number => {
+  return a + b;
+};
+
 export const addUser = async (user: User): Promise<User> => {
   const userCreated = await db('users').insert(user).returning('*');
   if (userCreated) {
