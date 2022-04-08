@@ -12,6 +12,7 @@ const configs: KnexConfig = {
     debug: true,
     useNullAsDefault: true,
     connection: {
+      host: 'postgres',
       port: 5432,
       database: process.env.DATABASE_NAME,
       user: process.env.DATABASE_USERNAME,
