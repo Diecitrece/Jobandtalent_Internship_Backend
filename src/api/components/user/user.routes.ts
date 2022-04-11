@@ -4,7 +4,11 @@ import { Router } from 'express';
 import { User } from './model';
 import sendEmail from './services/mail';
 import { schemaUserRegister } from './services/validations/user_register.validation';
-import { getUsers, addUser } from '../../../database/db-conection';
+import {
+  getUsers,
+  addUser,
+  checkUserExist,
+} from '../../../database/db-conection';
 import { v4 } from 'uuid';
 import password_crypt from './services/password_crypt';
 
@@ -37,6 +41,21 @@ router.post('/api/users', async (req: Request, res: Response) => {
 });
 
 router.post('/api/login', async (req: Request, res: Response) => {
+  console.log(req.body);
+  if (req.body.email && req.body.password) {
+    const user = await checkUserExist(req.body.email);
+    console.log(user);
+
+    if (user) {
+      if (user.password === (await password_crypt(req.body.password))) {
+        return res.json(user);
+      } else {
+        return res.json({ error: 'Password incorrect' });
+      }
+    } else {
+      return res.json({ error: 'User not found' });
+    }
+  }
   res.json(req.body);
 });
 
