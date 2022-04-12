@@ -41,12 +41,11 @@ router.post('/api/users', async (req: Request, res: Response) => {
 });
 
 router.post('/api/login', async (req: Request, res: Response) => {
-  const user = await checkUserExist(req.body.email);
+  const user = checkUserExist(req.body.email);
   if (user) {
     if (user.password === (await password_crypt(req.body.password))) {
       return res.json(user);
     }
-    return res.json({ error: 'Password incorrect' });
   }
   return res.json({ error: 'User not found' });
 });
