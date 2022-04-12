@@ -1,5 +1,13 @@
-import { sum } from './db-conection';
+import { checkUserExist } from './db-conection';
 
-test('sum', () => {
-  expect(sum(1, 2)).toBe(3);
+describe('checkUserExist', () => {
+  it('should return a user if user exist', () => {
+    const result = checkUserExist('juanfril@gmail.com');
+    expect(result).not.toBeUndefined();
+  });
+
+  it('should return undefined if user does not exist', () => {
+    const result = checkUserExist('example@gmail.com');
+    expect(result).toBeUndefined();
+  });
 });
