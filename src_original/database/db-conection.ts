@@ -1,6 +1,6 @@
 import { knex } from 'knex';
 import { User } from '../api/components/user/model';
-import users from '../__mocks__/db-mocks';
+import users from '../../src/__mocks__/db-mocks';
 import configs from './knexfile';
 
 const db = knex(configs.development);
