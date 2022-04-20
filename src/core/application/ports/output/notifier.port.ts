@@ -1,4 +1,4 @@
-import User from '../../../domain/user';
+import User from '@domain/user';
 
 interface NotifierPort {
   notify: (user: User, message: string) => Promise<void>;

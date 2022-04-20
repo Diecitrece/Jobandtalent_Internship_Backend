@@ -1,5 +1,5 @@
+import NotifierPort from '@ports/output/notifier.port';
 import nodemailer from 'nodemailer';
-import NotifierPort from '../core/aplication/ports/output/notifier-repository';
 
 export default async function sendEmail(notifierPort: NotifierPort) {
   const transporter = nodemailer.createTransport({
