@@ -1,12 +1,20 @@
-import User from '@domain/user';
-import { schemaUserRegister } from './validate-user';
-import { Request, Response, Router } from 'express';
-import { generateId } from '@utils/uuid';
-import password_crypt from '@utils/password_crypt';
-import { UserCases } from '@use-cases/user/create-user.use-case';
+import User from "@domain/user";
+import { schemaUserRegister } from "./validate-user";
+import { Request, Response, Router } from "express";
+import { generateId } from "@utils/uuid";
+import password_crypt from "@utils/password_crypt";
+import { UserCases } from "@use-cases/user/user.use-cases";
 
 export const userRouter = Router();
-userRouter.post('/api/users', async (req: Request, res: Response) => {
+userRouter.get("/api/users", async (req: Request, res: Response) => {
+  if(req.query.id)
+  {
+
+  }
+
+  res.status(200).json()
+});
+userRouter.post("/api/users", async (req: Request, res: Response) => {
   const [firstName, surNames, email, password, phone, address] = req.body;
   const user: User = {
     id: generateId(),
