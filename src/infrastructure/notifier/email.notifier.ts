@@ -1,4 +1,4 @@
-import NotifierPort from '@ports/output/notifier.port';
+/*import NotifierPort from '@ports/output/notifier.port';
 import nodemailer from 'nodemailer';
 
 export default async function sendEmail(notifierPort: NotifierPort) {
@@ -31,3 +31,4 @@ export default async function sendEmail(notifierPort: NotifierPort) {
   const response = transporter.sendMail(mailData);
   return response;
 }
+*/

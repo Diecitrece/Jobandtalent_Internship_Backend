@@ -1,8 +1,8 @@
 import User from '@domain/user';
 import { schemaUserRegister } from './validate-user';
 import { Request, Response, Router } from 'express';
-import { generateId } from 'utils/uuid';
-import password_crypt from 'utils/password_crypt';
+import { generateId } from '@utils/uuid';
+import password_crypt from '@utils/password_crypt';
 import { UserCases } from '@use-cases/user/create-user.use-case';
 
 export const userRouter = Router();
@@ -11,7 +11,7 @@ userRouter.post('/api/users', async (req: Request, res: Response) => {
   const user: User = {
     id: generateId(),
     firstName: firstName,
-    surNames : surNames,
+    surNames: surNames,
     email: email,
     password: password,
     phone: phone,
