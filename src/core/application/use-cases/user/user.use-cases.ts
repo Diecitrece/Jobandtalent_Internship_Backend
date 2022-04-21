@@ -1,8 +1,8 @@
-import User from '@domain/user';
-import { UserCRUD } from '@ports/input/user.port';
-import consoleNotifier from '@infrastructure/notifier/console.notifier';
-import { userTest } from '@infrastructure/user/user.inmemory';
-import { userRepositoryPostgres } from '@infrastructure/user/user.postgres';
+import { UserCRUD } from '../../ports/input/user.port';
+import User from '../../../domain/user';
+import consoleNotifier from '../../../../infrastructure/console.notifier';
+import { userTest } from '../../../../infrastructure/user/user.inmemory';
+import { userRepositoryPostgres } from '../../../../infrastructure/user/user.postgres';
 
 export const UserCases = (): UserCRUD => {
   const create = async (user: User) => {

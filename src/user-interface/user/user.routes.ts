@@ -1,23 +1,28 @@
-import User from '@domain/user';
-import { schemaUserRegister } from './validate-user';
 import { Request, Response, Router } from 'express';
-import { UserCases } from '@use-cases/user/user.use-cases';
-import { generateId } from '@infrastructure/shared/uuid';
-import { password_crypt } from '@infrastructure/shared/password_crypt';
+import { UserCases } from '../../core/application/use-cases/user/user.use-cases';
+import User from '../../core/domain/user';
+import { password_crypt } from '../../infrastructure/shared/password_crypt';
+import { generateId } from '../../infrastructure/shared/uuid';
+import { schemaUserRegister } from './validate-user';
+import bodyParser from 'body-parser';
 
 export const userRouter = Router();
+userRouter.use(bodyParser.json());
 userRouter.get('/api/users', async (req: Request, res: Response) => {
-  const id = req.query.toString();
+  const { id } = req.body;
   if (id) {
-    const user = UserCases().getOneUser(id);
+    const user = await UserCases().getOneUser(id);
     res.status(200).json(user);
   }
-  const users = await UserCases().getAllUsers();
-  res.status(200).json(users);
+  if (!id) {
+    const users = await UserCases().getAllUsers();
+    res.status(200).json(users);
+  }
 });
 
 userRouter.post('/api/users', async (req: Request, res: Response) => {
-  const [firstName, surNames, email, password, phone, address] = req.body;
+  const { body } = req;
+  const { firstName, surNames, email, password, phone, address } = body;
   const user: User = {
     id: generateId(),
     firstName: firstName,
@@ -28,9 +33,15 @@ userRouter.post('/api/users', async (req: Request, res: Response) => {
     address: address,
   };
   if (schemaUserRegister.validate(user).error) {
-    res.status(401).send(schemaUserRegister.validate(user).error?.details);
+    res.status(418).send(schemaUserRegister.validate(user).error?.details);
   }
+
   user.password = await password_crypt(user.password);
   const newUser = await UserCases().create(user);
-  res.status(200).json(newUser);
+
+  user === undefined
+    ? res.status(200).json(newUser)
+    : res
+        .status(418)
+        .json({ message: 'User not created', error: 'user already exists' });
 });

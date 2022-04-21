@@ -1,4 +1,4 @@
-import { User } from '../../src_original/api/components/user/model';
+import User from '../core/domain/user';
 
 const users: User[] = [
   {

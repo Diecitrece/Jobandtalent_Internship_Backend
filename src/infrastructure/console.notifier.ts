@@ -1,5 +1,5 @@
-import User from '@domain/user';
-import NotifierPort from '@ports/output/notifier.port';
+import NotifierPort from '../core/application/ports/output/notifier.port';
+import User from '../core/domain/user';
 
 const consoleNotifier = (): NotifierPort => {
   const notify = async (user: User, message: string) => {
