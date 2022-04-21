@@ -5,7 +5,7 @@ import { UserRespository } from '@ports/output/user.repository.port';
 
 const db = knex(configs.development);
 
-export const createUserPostgres = (): UserRespository => {
+export const userRepositoryPostgres = (): UserRespository => {
   const get = async () => {
     return await db('users').select('*');
   };
