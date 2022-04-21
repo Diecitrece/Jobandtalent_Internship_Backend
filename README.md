@@ -10,13 +10,15 @@ Installation:
   `docker-compose up`
 - Open a terminal inside the project with:
   `docker-compose exec a-team-project_app bash`
-  Postgres image uses the port 5430
-  App image uses the port 8080
 - Install dependecies with:
   `yarn install`
 - You can insert some data for testing using:
-  `yarn makeSeeds`
+  `yarn makeSeeds` </br>
 The terminal ask you how many users you want create, just type a number you want
 - You can call differents endpoints:
   - Show all users
   `http://localhost:8080/api/users`
+  
+If you get some errors when you run the docker-compose, pay attention with:
+-  Postgres image uses the port 5430
+-  App image uses the port 8080
