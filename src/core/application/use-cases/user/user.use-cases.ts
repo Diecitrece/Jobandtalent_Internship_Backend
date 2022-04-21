@@ -1,26 +1,45 @@
-import User from "@domain/user";
-import { UserCRUD } from "@ports/input/user.port";
-import consoleNotifier from "@infrastructure/notifier/console.notifier";
-import { userTest } from "@infrastructure/user/user.inmemory";
-import { userRepositoryPostgres } from "@infrastructure/user/user.postgres";
+import User from '@domain/user';
+import { UserCRUD } from '@ports/input/user.port';
+import consoleNotifier from '@infrastructure/notifier/console.notifier';
+import { userTest } from '@infrastructure/user/user.inmemory';
+import { userRepositoryPostgres } from '@infrastructure/user/user.postgres';
 
 export const UserCases = (): UserCRUD => {
   const create = async (user: User) => {
-    if (process.env.NODE_ENV === "test") {
-      await userTest().create(user);
-      return user;
+    if (process.env.NODE_ENV === 'test') {
+      const newUser = await userTest().create(user);
+      return newUser as unknown as User;
     }
     //Llamando directamente a la infraestructura, teniendo que llamarse a una abstracción (inyección)
-    user = await userRepositoryPostgres().create(user);
-    consoleNotifier().notify(user, "Hello");
-    return user;
-  };
-  const get = async () => {
-    if (process.env.NODE_ENV === "test") {
-      const users = await userTest().get();
-      return users;
-      //Esto está a medias
+    if (process.env.NODE_ENV === 'development') {
+      const newUser = await userRepositoryPostgres().create(user);
+      if (newUser) {
+        consoleNotifier().notify(user, 'Hello');
+      }
+      return newUser as unknown as User;
     }
   };
-  return { create, get, getOne };
+  const getAllUsers = async () => {
+    if (process.env.NODE_ENV === 'test') {
+      const users = await userTest().getAllUsers();
+      return users ? (users as User[]) : [];
+    }
+    if (process.env.NODE_ENV === 'development') {
+      const users = await userRepositoryPostgres().getAllUsers();
+      return users ? (users as User[]) : [];
+    }
+  };
+
+  const getOneUser = async (id: string) => {
+    if (process.env.NODE_ENV === 'test') {
+      const user = await userTest().getOneUser(id);
+      return user ? (user as User) : undefined;
+    }
+    if (process.env.NODE_ENV === 'development') {
+      const user = await userRepositoryPostgres().getOneUser(id);
+      return user ? (user as User) : undefined;
+    }
+  };
+
+  return { create, getAllUsers, getOneUser };
 };

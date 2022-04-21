@@ -1,7 +1,6 @@
-import User from "@domain/user";
-// export type CreateUser = (user: User) => Promise<User>;
+import User from '@domain/user';
 export interface UserCRUD {
-  create: (user: User) => Promise<User>;
-  get: () => Promise<User[]>;
-  getOne: (id: string) => Promise<User | undefined>;
+  create: (user: User) => Promise<User | undefined>;
+  getAllUsers: () => Promise<User[] | undefined>;
+  getOneUser: (id: string) => Promise<User | undefined>;
 }

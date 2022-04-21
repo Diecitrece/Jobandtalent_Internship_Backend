@@ -1,28 +1,26 @@
 import knex from 'knex';
-import configs from '../../../knexfile';
 import User from '@domain/user';
 import { UserRespository } from '@ports/output/user.repository.port';
+import configs from '@infrastructure/shared/database/knexfile';
 
 const db = knex(configs.development);
 
 export const userRepositoryPostgres = (): UserRespository => {
-  const get = async () => {
-    return await db('users').select('*');
+  const getAllUsers = async () => {
+    const users = await db('users').select('*');
+    return users as User[];
   };
 
   const create = async (user: User) => {
     const userCreated = await db('users').insert(user).returning('*');
-    if (userCreated) {
-      return userCreated[0];
-    }
-    return userCreated;
+    return userCreated as unknown as User;
   };
 
-  const getOne = async (id: string) => {
+  const getOneUser = async (id: string) => {
     const gotUser = await db('user').select('*').where({ id: id });
     //Pendiente de revisión
     //console.log(gotUser);
     return gotUser ? (gotUser as unknown as User) : undefined;
   };
-  return { get, create, getOne };
+  return { getAllUsers, create, getOneUser };
 };

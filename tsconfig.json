@@ -34,8 +34,8 @@
       "@use-cases/*": ["core/application/use-cases/*"],
       "@infrastructure/*": ["infrastructure/*"],
       "@user-interface/*": ["user-interface/*"],
-      "@utils/*": ["utils/*"],
-      "@mocks/*": ["__mocks__/*"]
+      "@mocks/*": ["__mocks__/*"],
+      "shared/*": ["infrastructure/shared/*"]
     } /* Specify a set of entries that re-map imports to additional lookup locations. */,
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     // "typeRoots": [],                                  /* Specify multiple folders that act like `./node_modules/@types`. */
