@@ -1,4 +1,4 @@
-import User from '../core/domain/user';
+import User from '../core/domain/user.model';
 
 const users: User[] = [
   {
