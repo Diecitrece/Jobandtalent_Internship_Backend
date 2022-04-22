@@ -11,11 +11,11 @@ userRouter.use(bodyParser.json());
 userRouter.get('/api/users', async (req: Request, res: Response) => {
   const { id } = req.body;
   if (id) {
-    const user = await UserCases().getOneUser(id);
+    const user = await UserCases().getOne(id);
     res.status(200).json(user);
   }
   if (!id) {
-    const users = await UserCases().getAllUsers();
+    const users = await UserCases().getAll();
     res.status(200).json(users);
   }
 });

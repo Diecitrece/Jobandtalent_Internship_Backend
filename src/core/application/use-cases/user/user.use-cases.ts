@@ -1,9 +1,9 @@
-import { UserCRUD } from '../../ports/input/user.port';
 import { User } from '../../../domain/user';
 import { userRepositoryPostgres } from '../../../../infrastructure/user/user.postgres';
 import { consoleNotifier } from '../../../../infrastructure/notifier/console.notifier';
+import { Respository } from '../../ports/repository.port';
 
-export const UserCases = (): UserCRUD => {
+export const UserCases = (): Respository<User> => {
   const create = async (user: User) => {
     const newUser = await userRepositoryPostgres().create(user);
     if (newUser) {
@@ -11,15 +11,15 @@ export const UserCases = (): UserCRUD => {
     }
     return newUser as unknown as User;
   };
-  const getAllUsers = async () => {
-    const users = await userRepositoryPostgres().getAllUsers();
+  const getAll = async () => {
+    const users = await userRepositoryPostgres().getAll();
     return users ? (users as User[]) : [];
   };
 
-  const getOneUser = async (id: string) => {
-    const user = await userRepositoryPostgres().getOneUser(id);
+  const getOne = async (id: string) => {
+    const user = await userRepositoryPostgres().getOne(id);
     return user ? (user as User) : undefined;
   };
 
-  return { create, getAllUsers, getOneUser };
+  return { create, getAll, getOne };
 };
