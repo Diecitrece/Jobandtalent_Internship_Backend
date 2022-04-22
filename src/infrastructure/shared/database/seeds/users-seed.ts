@@ -2,7 +2,7 @@ import { Knex } from 'knex';
 import { v4 } from 'uuid';
 import { faker } from '@faker-js/faker';
 import PromptSync from 'prompt-sync';
-import User from '../../../../core/domain/user';
+import { User } from '../../../../core/domain/user';
 import { password_crypt } from '../../password_crypt';
 
 const generateId = () => v4();

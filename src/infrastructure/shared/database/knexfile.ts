@@ -6,7 +6,7 @@ interface KnexConfig {
   [key: string]: Knex.Config;
 }
 
-const configs: KnexConfig = {
+export const configs: KnexConfig = {
   development: {
     client: 'pg',
     debug: true,
@@ -52,4 +52,3 @@ const configs: KnexConfig = {
     },
   },
 };
-export default configs;

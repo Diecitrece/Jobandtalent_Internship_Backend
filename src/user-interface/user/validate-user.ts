@@ -1,5 +1,5 @@
 import Joi, { ObjectSchema } from 'joi';
-import User from '../../core/domain/user';
+import { User } from '../../core/domain/user';
 
 export const schemaUserRegister: ObjectSchema<User> = Joi.object({
   id: Joi.string(),

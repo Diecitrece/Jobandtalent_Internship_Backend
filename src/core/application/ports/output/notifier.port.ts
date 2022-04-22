@@ -1,7 +1,5 @@
-import User from '../../../domain/user';
+import { User } from '../../../domain/user';
 
-interface NotifierPort {
+export interface NotifierPort {
   notify: (user: User, message: string) => Promise<void>;
 }
-
-export default NotifierPort;

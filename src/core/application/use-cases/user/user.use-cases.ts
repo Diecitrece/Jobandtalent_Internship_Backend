@@ -1,44 +1,24 @@
 import { UserCRUD } from '../../ports/input/user.port';
-import User from '../../../domain/user';
-import consoleNotifier from '../../../../infrastructure/console.notifier';
-import { userTest } from '../../../../infrastructure/user/user.inmemory';
+import { User } from '../../../domain/user';
 import { userRepositoryPostgres } from '../../../../infrastructure/user/user.postgres';
+import { consoleNotifier } from '../../../../infrastructure/notifier/console.notifier';
 
 export const UserCases = (): UserCRUD => {
   const create = async (user: User) => {
-    if (process.env.NODE_ENV === 'test') {
-      const newUser = await userTest().create(user);
-      return newUser as unknown as User;
+    const newUser = await userRepositoryPostgres().create(user);
+    if (newUser) {
+      consoleNotifier().notify(user, 'Hello');
     }
-    //Llamando directamente a la infraestructura, teniendo que llamarse a una abstracción (inyección)
-    if (process.env.NODE_ENV === 'development') {
-      const newUser = await userRepositoryPostgres().create(user);
-      if (newUser) {
-        consoleNotifier().notify(user, 'Hello');
-      }
-      return newUser as unknown as User;
-    }
+    return newUser as unknown as User;
   };
   const getAllUsers = async () => {
-    if (process.env.NODE_ENV === 'test') {
-      const users = await userTest().getAllUsers();
-      return users ? (users as User[]) : [];
-    }
-    if (process.env.NODE_ENV === 'development') {
-      const users = await userRepositoryPostgres().getAllUsers();
-      return users ? (users as User[]) : [];
-    }
+    const users = await userRepositoryPostgres().getAllUsers();
+    return users ? (users as User[]) : [];
   };
 
   const getOneUser = async (id: string) => {
-    if (process.env.NODE_ENV === 'test') {
-      const user = await userTest().getOneUser(id);
-      return user ? (user as User) : undefined;
-    }
-    if (process.env.NODE_ENV === 'development') {
-      const user = await userRepositoryPostgres().getOneUser(id);
-      return user ? (user as User) : undefined;
-    }
+    const user = await userRepositoryPostgres().getOneUser(id);
+    return user ? (user as User) : undefined;
   };
 
   return { create, getAllUsers, getOneUser };

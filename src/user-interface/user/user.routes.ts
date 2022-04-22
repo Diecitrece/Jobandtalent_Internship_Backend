@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
 import { UserCases } from '../../core/application/use-cases/user/user.use-cases';
-import User from '../../core/domain/user';
+import { User } from '../../core/domain/user';
 import { password_crypt } from '../../infrastructure/shared/password_crypt';
 import { generateId } from '../../infrastructure/shared/uuid';
 import { schemaUserRegister } from './validate-user';

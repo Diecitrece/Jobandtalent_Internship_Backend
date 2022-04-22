@@ -1,7 +1,7 @@
 import knex from 'knex';
 import { UserRespository } from '../../core/application/ports/output/user.repository.port';
-import User from '../../core/domain/user';
-import configs from '../shared/database/knexfile';
+import { User } from '../../core/domain/user';
+import { configs } from '../shared/database/knexfile';
 
 const db = knex(configs.development);
 
