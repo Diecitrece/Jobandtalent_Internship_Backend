@@ -8,16 +8,23 @@ import { generateId } from "../../../../infrastructure/shared/uuid";
 
 export const UserCases = (): UserCRUD => {
   const create = async (body: Body) => {
-    user: User = {
-      //hacer toda la mierda del mapeo
+    const { firstName, surNames, email, password, phone, address } = body;
+
+    const user: User = {
+      id: generateId(),
+      firstName: firstName,
+      surNames: surNames,
+      email: email,
+      password: await password_crypt(password),
+      phone: phone,
+      address: address,
     };
-    user.password = await password_crypt(user.password);
-    user.id = generateId();
     const newUser = await userRepositoryPostgres().create(user);
+
     if (newUser) {
       consoleNotifier().notify(user, "Hello");
     }
-    return newUser as unknown as User;
+    return newUser;
   };
   const getAll = async () => {
     const users = await userRepositoryPostgres().getAll();
@@ -31,3 +38,4 @@ export const UserCases = (): UserCRUD => {
 
   return { create, getAll, getOne };
 };
+
