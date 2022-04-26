@@ -1,14 +1,11 @@
-import { Request, Response, Router } from 'express';
-import { UserCases } from '../../core/application/use-cases/user/user.use-cases';
-import { User } from '../../core/domain/user';
-import { password_crypt } from '../../infrastructure/shared/password_crypt';
-import { generateId } from '../../infrastructure/shared/uuid';
-import { schemaUserRegister } from './validate-user';
-import bodyParser from 'body-parser';
+import { Request, Response, Router } from "express";
+import { UserCases } from "../../core/application/use-cases/user/user.use-cases";
+import { schemaUserRegister } from "./validate-body";
+import bodyParser from "body-parser";
 
 export const userRouter = Router();
 userRouter.use(bodyParser.json());
-userRouter.get('/api/users', async (req: Request, res: Response) => {
+userRouter.get("/api/users", async (req: Request, res: Response) => {
   const { id } = req.body;
   if (id) {
     const user = await UserCases().getOne(id);
@@ -20,28 +17,17 @@ userRouter.get('/api/users', async (req: Request, res: Response) => {
   }
 });
 
-userRouter.post('/api/users', async (req: Request, res: Response) => {
+userRouter.post("/api/users", async (req: Request, res: Response) => {
   const { body } = req;
-  const { firstName, surNames, email, password, phone, address } = body;
-  const user: User = {
-    id: generateId(),
-    firstName: firstName,
-    surNames: surNames,
-    email: email,
-    password: password,
-    phone: phone,
-    address: address,
-  };
-  if (schemaUserRegister.validate(user).error) {
-    res.status(418).send(schemaUserRegister.validate(user).error?.details);
+  const validation = schemaUserRegister.validate(body);
+  if (validation.error) {
+    res.status(418).send(validation.error?.details);
   }
-
-  user.password = await password_crypt(user.password);
-  const newUser = await UserCases().create(user);
-
-  user === undefined
-    ? res.status(200).json(newUser)
-    : res
-        .status(418)
-        .json({ message: 'User not created', error: 'user already exists' });
+  if (!validation.error) {
+    const newUser = await UserCases().create(body);
+    if (!newUser) {
+      res.status(400).send("User already exists");
+    }
+    res.status(200).json(newUser);
+  }
 });
