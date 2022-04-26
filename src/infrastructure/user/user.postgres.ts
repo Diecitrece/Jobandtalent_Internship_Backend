@@ -17,7 +17,6 @@ export const userRepositoryPostgres = (): Respository<User> => {
       return undefined;
     }
     const userCreated: User = await db("users").insert(user, ["*"]);
-    console.log("Returned: " + userCreated);
     return userCreated;
   };
 
