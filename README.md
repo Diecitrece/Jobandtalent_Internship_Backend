@@ -9,7 +9,7 @@ Installation:
 - Start docker project with:
   `docker-compose up`
 - Open a terminal inside the project with:
-  `docker-compose exec a-team-project_app bash`
+  `docker-compose exec app sh`
 - Install dependecies with:
   `yarn install`
 - You can insert some data for testing using:
