@@ -15,3 +15,4 @@ export const UserInMemory = (): Respository<User> => {
   };
   return { create, getAll, getOne };
 };
+

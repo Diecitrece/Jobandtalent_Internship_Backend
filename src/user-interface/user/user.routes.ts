@@ -1,6 +1,5 @@
 import { Request, Response, Router } from "express";
 import { UserCases } from "../../core/application/use-cases/user/user.use-cases";
-import { User } from "../../core/domain/user.model";
 import { schemaUserRegister } from "./validate-body";
 import bodyParser from "body-parser";
 
@@ -26,7 +25,9 @@ userRouter.post("/api/users", async (req: Request, res: Response) => {
   }
   if (!validation.error) {
     const newUser = await UserCases().create(body);
-    //me he cargado el control de errores de Juanfri sin querer
+    if (!newUser) {
+      res.status(400).send("User already exists");
+    }
     res.status(200).json(newUser);
   }
 });

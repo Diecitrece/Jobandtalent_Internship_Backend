@@ -1,10 +1,10 @@
 import knex from "knex";
 import { Respository } from "../../core/application/ports/output/repository.port";
 import { User } from "../../core/domain/user.model";
-import { configs } from "../shared/database/knexfile";
+import configs from "../shared/database/knexfile";
 
+console.log(configs.development);
 const db = knex(configs.development);
-
 export const userRepositoryPostgres = (): Respository<User> => {
   const getAll = async () => {
     const users = await db("users").select("*");
@@ -16,10 +16,8 @@ export const userRepositoryPostgres = (): Respository<User> => {
     if (userExist.length > 0) {
       return undefined;
     }
-    const userCreated: User = await db("users")
-      .insert(user)
-      .returning("*")
-      .first();
+    const userCreated: User = await db("users").insert(user, ["*"]);
+    console.log("Returned: " + userCreated);
     return userCreated;
   };
 

@@ -20,7 +20,6 @@ export const UserCases = (): UserCRUD => {
       address: address,
     };
     const newUser = await userRepositoryPostgres().create(user);
-
     if (newUser) {
       consoleNotifier().notify(user, "Hello");
     }
@@ -38,4 +37,3 @@ export const UserCases = (): UserCRUD => {
 
   return { create, getAll, getOne };
 };
-
