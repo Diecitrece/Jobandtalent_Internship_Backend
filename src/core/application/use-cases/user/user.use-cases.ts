@@ -1,14 +1,13 @@
 import { User } from "../../../domain/user.model";
-import { Body } from "../../../../user-interface/user/body.model";
 import { userRepositoryPostgres } from "../../../../infrastructure/user/user.postgres";
 import { consoleNotifier } from "../../../../infrastructure/notifier/console.notifier";
-import { UserCRUD } from "../../ports/input/userCRUD.port";
+import { UserCreation, UserCRUD } from "../../ports/input/userCRUD.port";
 import { password_crypt } from "../../../../infrastructure/shared/password_crypt";
 import { generateId } from "../../../../infrastructure/shared/uuid";
 
 export const UserCases = (): UserCRUD => {
-  const create = async (body: Body) => {
-    const { firstName, surNames, email, password, phone, address } = body;
+  const create = async (data: UserCreation) => {
+    const { firstName, surNames, email, password, phone, address } = data;
 
     const user: User = {
       id: generateId(),
