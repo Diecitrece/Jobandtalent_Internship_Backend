@@ -1,5 +1,4 @@
 import Joi, { ObjectSchema } from "joi";
-import { User } from "../../core/domain/user.model";
 
 export const schemaUserRegister: ObjectSchema = Joi.object({
   firstName: Joi.string().alphanum().min(3).max(30),

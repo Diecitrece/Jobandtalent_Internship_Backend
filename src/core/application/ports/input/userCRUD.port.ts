@@ -9,6 +9,6 @@ export interface UserCreation {
 }
 export interface UserCRUD {
   create: (item: UserCreation) => Promise<User | undefined>;
-  getAll: () => Promise<User[] | []>;
+  getAll: () => Promise<User[]>;
   getOne: (id: string) => Promise<User | undefined>;
 }

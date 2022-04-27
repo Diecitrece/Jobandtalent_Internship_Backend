@@ -25,13 +25,11 @@ export const UserCases = (): UserCRUD => {
     return newUser;
   };
   const getAll = async () => {
-    const users = await userRepositoryPostgres().getAll();
-    return users ? (users as User[]) : [];
+    return userRepositoryPostgres().getAll();
   };
 
   const getOne = async (id: string) => {
-    const user = await userRepositoryPostgres().getOne(id);
-    return user ? (user as User) : undefined;
+    return userRepositoryPostgres().getOne(id);
   };
 
   return { create, getAll, getOne };
