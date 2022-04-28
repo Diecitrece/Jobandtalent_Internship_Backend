@@ -22,3 +22,4 @@ The terminal ask you how many users you want create, just type a number you want
 If you get some errors when you run the docker-compose, pay attention with:
 -  Postgres image uses the port 5430
 -  App image uses the port 8080
+-  .env variables have the required values
