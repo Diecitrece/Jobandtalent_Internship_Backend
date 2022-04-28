@@ -3,7 +3,6 @@ import { Respository } from "../../core/application/ports/output/repository.port
 import { User } from "../../core/domain/user.model";
 import configs from "../shared/database/knexfile";
 
-console.log(configs.development);
 const db = knex(configs.development);
 export const userRepositoryPostgres = (): Respository<User> => {
   const getAll = async () => {
