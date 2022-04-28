@@ -1,6 +1,4 @@
 import { NotifierPort } from "../../core/application/ports/output/notifier.port";
-import dotenv from "dotenv";
-dotenv.config({ path: "../../.env" });
 import nodemailer from "nodemailer";
 import { User } from "../../core/domain/user.model";
 
@@ -22,12 +20,12 @@ export const emailNotifier = (): NotifierPort => {
       text: message,
     };
 
-    transporter.verify((error, success) => {
+    transporter.verify((error) => {
       if (error) {
         console.log(`Mailing server error: ${error}`);
-      } else {
-        console.log("Mailing server is up", success);
+        return;
       }
+      console.log("Mailing server is up");
     });
 
     transporter.sendMail(mailData);
