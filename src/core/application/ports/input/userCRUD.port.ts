@@ -1,7 +1,14 @@
-import { Body } from "../../../../user-interface/user/body.model";
 import { User } from "../../../domain/user.model";
+export interface UserCreation {
+  firstName: string;
+  surNames: string;
+  email: string;
+  password: string;
+  phone: string;
+  address: string;
+}
 export interface UserCRUD {
-  create: (item: Body) => Promise<Body | undefined>;
-  getAll: () => Promise<Body[] | []>;
+  create: (item: UserCreation) => Promise<User | undefined>;
+  getAll: () => Promise<User[]>;
   getOne: (id: string) => Promise<User | undefined>;
 }
