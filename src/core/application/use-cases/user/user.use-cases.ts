@@ -23,10 +23,7 @@ export const UserCases = (): UserCRUD => {
     const newUser = await userRepositoryPostgres().create(user);
     if (newUser) {
       consoleNotifier().notify(user, "Hello");
-      emailNotifier().notify(
-        user,
-        "Hello " + user.firstName + ", welcome to Jobandtalent"
-      );
+      emailNotifier().notify(user, "Welcome to Jobandtalent");
     }
     return newUser;
   };

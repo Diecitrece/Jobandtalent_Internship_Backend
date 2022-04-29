@@ -17,7 +17,7 @@ export const emailNotifier = (): NotifierPort => {
       from: process.env.EMAIL_NODEMAILER,
       to: user.email,
       subject: `Message From A-Team-Project`,
-      text: message,
+      text: `${message} ${user.firstName}`,
     };
 
     transporter.verify((error) => {
