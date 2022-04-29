@@ -24,4 +24,4 @@ If you get some errors when you run the docker-compose, pay attention with:
 -  App image uses the port 8080
 -  .env variables have the required values
 
-You can find the project at http://ec2-3-121-224-101.eu-central-1.compute.amazonaws.com/
+You can find deploy project at http://ec2-3-121-224-101.eu-central-1.compute.amazonaws.com/
