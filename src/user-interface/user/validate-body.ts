@@ -1,4 +1,4 @@
-import Joi, { ObjectSchema } from "joi";
+import Joi, { ObjectSchema } from 'joi';
 
 export const schemaUserRegister: ObjectSchema = Joi.object({
   firstName: Joi.string()
@@ -10,7 +10,7 @@ export const schemaUserRegister: ObjectSchema = Joi.object({
     .max(60)
     .pattern(new RegExp(/^[\w\-\sÀ-ÿ]+$/)),
   email: Joi.string().email({ minDomainSegments: 2 }).required(),
-  password: Joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")).required(),
-  phone: Joi.string().alphanum().length(14),
+  password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required(),
+  phone: Joi.string().alphanum().min(9).max(14),
   address: Joi.string(),
 });
