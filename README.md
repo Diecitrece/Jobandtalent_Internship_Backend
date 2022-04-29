@@ -41,3 +41,5 @@ Body to add one user:
   "address": "Some address, 5"
 }
 ```
+
+Enjoy 😇
