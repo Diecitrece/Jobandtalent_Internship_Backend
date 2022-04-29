@@ -17,4 +17,4 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           instance-ids: ${{ secrets.INSTANCE_ID }}
           working-directory: /home/ec2-user/
-          command: docker-compose down -rmi all -v; git pull; docker-compose up -d
+          command: git pull;
