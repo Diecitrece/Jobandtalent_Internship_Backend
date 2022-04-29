@@ -1,8 +1,12 @@
+import 'dotenv/config';
 import express from 'express';
-import indexRoutes from './routes/index.route';
+import { userRouter } from './user-interface/user/user.routes';
 
-const app = express();
+export const app = express();
 
-app.use(indexRoutes);
+app.use(userRouter);
+app.use(express.json());
 
-export default app;
+app.get('/', (req, res) => {
+  res.send('Working 👍🏼');
+});
