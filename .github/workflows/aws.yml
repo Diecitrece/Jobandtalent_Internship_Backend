@@ -1,10 +1,8 @@
 name: Deploy to Amazon ECS
-
 on:
   push:
     branches:
       - main
-
 jobs:
   deploy:
     name: Deploy
@@ -19,4 +17,4 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           instance-ids: ${{ secrets.INSTANCE_ID }}
           working-directory: /home/ec2-user/
-          command: git pull; docker-compose down; docker -rmi all -v; docker-compose up -d
+          command: docker-compose down -rmi all -v; git pull; docker-compose up -d
