@@ -14,14 +14,30 @@ Installation:
   `yarn install`
 - You can insert some data for testing using:
   `yarn makeSeeds` </br>
-The terminal ask you how many users you want create, just type a number you want
+  The terminal ask you how many users you want create, just type a number you want
 - You can call differents endpoints:
   - Show all users
-  `http://localhost:8080/api/users`
-  
-If you get some errors when you run the docker-compose, pay attention with:
--  Postgres image uses the port 5430
--  App image uses the port 8080
--  .env variables have the required values
+    `http://localhost:8080/api/users`
 
-You can find deploy project at http://ec2-3-121-224-101.eu-central-1.compute.amazonaws.com/
+If you get some errors when you run the docker-compose, pay attention with:
+
+- Postgres image uses the port 5430
+- App image uses the port 8080
+- .env variables have the required values
+
+You can find deploy project at: http://ec2-3-121-224-101.eu-central-1.compute.amazonaws.com/
+
+Get all users: http://ec2-3-121-224-101.eu-central-1.compute.amazonaws.com/api/users
+
+Body to add one user:
+
+```
+{
+  "firstName": "someone",
+  "surNames": "onesurname",
+  "email": "example@gmail.com",
+  "password": "DSdasjfl5467kdsjafs",
+  "phone": "666111222",
+  "address": "Some address, 5"
+}
+```
