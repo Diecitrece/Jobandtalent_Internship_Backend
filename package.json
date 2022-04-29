@@ -6,10 +6,10 @@
   "scripts": {
     "start": "NODE_ENV=producction tsc && node .",
     "dev": "NODE_ENV=development ts-node-dev src/index.ts",
-    "makeSeeds": "yarn knex seed:run --knexfile ./src/database/knexfile.ts users-seed",
+    "makeSeeds": "yarn knex seed:run --knexfile ./src/infrastructure/shared/database/knexfile.ts users-seed",
     "test": "NODE_ENV=test jest --verbose --coverage",
     "lint": "eslint . --ext .ts",
-    "migrate": "yarn knex migrate:latest --knexfile ./src/database/knexfile.ts"
+    "migrate": "yarn knex migrate:latest --knexfile ./src/infrastructure/shared/database/knexfile.ts"
   },
   "repository": {
     "type": "git",

@@ -1,18 +1,17 @@
-import dotenv from 'dotenv';
-dotenv.config({ path: '../../.env' });
-import { Knex } from 'knex';
+import dotenv from "dotenv";
+dotenv.config({ path: "../../.env" });
+import { Knex } from "knex";
 
 interface KnexConfig {
   [key: string]: Knex.Config;
 }
-
 const configs: KnexConfig = {
   development: {
-    client: 'pg',
+    client: "pg",
     debug: true,
     useNullAsDefault: true,
     connection: {
-      host: 'postgres',
+      host: "postgres",
       port: 5432,
       database: process.env.DATABASE_NAME,
       user: process.env.DATABASE_USERNAME,
@@ -23,18 +22,18 @@ const configs: KnexConfig = {
       max: 10,
     },
     migrations: {
-      tableName: 'knex_migrations',
+      tableName: "knex_migrations",
     },
     seeds: {
-      directory: './seeds',
+      directory: "./seeds",
     },
   },
   test: {
-    client: 'pg',
+    client: "pg",
     debug: true,
     useNullAsDefault: true,
     connection: {
-      host: 'postgres',
+      host: "postgres",
       port: 5432,
       database: process.env.DATABASE_NAME,
       user: process.env.DATABASE_USERNAME,
@@ -45,11 +44,12 @@ const configs: KnexConfig = {
       max: 10,
     },
     migrations: {
-      tableName: 'knex_migrations',
+      tableName: "knex_migrations",
     },
     seeds: {
-      directory: './seeds',
+      directory: "./seeds",
     },
   },
 };
+
 export default configs;
