@@ -55,7 +55,7 @@ userRouter.post(
 );
 
 userRouter.post(
-  "/api/login",
+  "/api/users/login",
   async (req: Request, res: Response): Promise<void> => {
     const validation = schemaUserLogin.validate(req.body);
     if (validation.error) {

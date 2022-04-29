@@ -6,9 +6,9 @@ import {
   UserCRUD,
   UserVerify,
 } from "../../ports/input/userCRUD.port";
-import { password_crypt } from "../../../../infrastructure/shared/password_crypt";
 import { generateId } from "../../../../infrastructure/shared/uuid";
 import { emailNotifier } from "../../../../infrastructure/notifier/email.notifier";
+import { passwordCrypt } from "../../../../infrastructure/shared/password_crypt";
 
 export const UserCases = (): UserCRUD => {
   const create = async (data: UserCreation) => {
@@ -19,7 +19,7 @@ export const UserCases = (): UserCRUD => {
       firstName: firstName,
       surNames: surNames,
       email: email,
-      password: await password_crypt(password),
+      password: await passwordCrypt().password_crypt(password),
       phone: phone,
       address: address,
     };
@@ -39,7 +39,18 @@ export const UserCases = (): UserCRUD => {
   };
 
   const login = async (item: UserVerify) => {
-    return userRepositoryPostgres().getOneByEmail(item.email);
+    const gotUser = await userRepositoryPostgres().getOneByEmail(item.email);
+    if (!gotUser) {
+      return gotUser;
+    }
+    const passwordVerify = await passwordCrypt().password_compare(
+      item.password,
+      gotUser.password
+    );
+    if (passwordVerify) {
+      return gotUser;
+    }
+    return undefined;
   };
 
   return { create, getAll, getOne, login };
