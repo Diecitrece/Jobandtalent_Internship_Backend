@@ -26,5 +26,12 @@ export const userRepositoryPostgres = (): Respository<User> => {
       .first();
     return gotUser ? gotUser : undefined;
   };
-  return { getAll, create, getOne };
+  const getOneByEmail = async (email: string) => {
+    const gotUser: User = await db("users")
+      .select("*")
+      .where({ email: email })
+      .first();
+    return gotUser ? gotUser : undefined;
+  };
+  return { getAll, create, getOne, getOneByEmail };
 };

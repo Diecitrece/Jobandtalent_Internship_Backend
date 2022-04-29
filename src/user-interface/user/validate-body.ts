@@ -14,3 +14,8 @@ export const schemaUserRegister: ObjectSchema = Joi.object({
   phone: Joi.string().alphanum().length(14),
   address: Joi.string(),
 });
+
+export const schemaUserLogin: ObjectSchema = Joi.object({
+  email: Joi.string().email({ minDomainSegments: 2 }).required(),
+  password: Joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")).required(),
+});

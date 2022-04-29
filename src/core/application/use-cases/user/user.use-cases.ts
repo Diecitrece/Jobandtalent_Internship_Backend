@@ -1,7 +1,11 @@
 import { User } from "../../../domain/user.model";
 import { userRepositoryPostgres } from "../../../../infrastructure/user/user.postgres";
 import { consoleNotifier } from "../../../../infrastructure/notifier/console.notifier";
-import { UserCreation, UserCRUD } from "../../ports/input/userCRUD.port";
+import {
+  UserCreation,
+  UserCRUD,
+  UserVerify,
+} from "../../ports/input/userCRUD.port";
 import { password_crypt } from "../../../../infrastructure/shared/password_crypt";
 import { generateId } from "../../../../infrastructure/shared/uuid";
 import { emailNotifier } from "../../../../infrastructure/notifier/email.notifier";
@@ -34,5 +38,9 @@ export const UserCases = (): UserCRUD => {
     return userRepositoryPostgres().getOne(id);
   };
 
-  return { create, getAll, getOne };
+  const login = async (item: UserVerify) => {
+    return userRepositoryPostgres().getOneByEmail(item.email);
+  };
+
+  return { create, getAll, getOne, login };
 };

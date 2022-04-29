@@ -1,8 +1,12 @@
 import { Request, Response, Router } from "express";
 import { UserCases } from "../../core/application/use-cases/user/user.use-cases";
-import { schemaUserRegister } from "./validate-body";
-import { UserCreation } from "../../core/application/ports/input/userCRUD.port";
+import { schemaUserLogin, schemaUserRegister } from "./validate-body";
+import {
+  UserCreation,
+  UserVerify,
+} from "../../core/application/ports/input/userCRUD.port";
 import bodyParser from "body-parser";
+import { tokenCreator } from "../../infrastructure/user/jwt/generateToken";
 
 export const userRouter = Router();
 userRouter.use(bodyParser.json());
@@ -46,6 +50,25 @@ userRouter.post(
       return;
     }
     res.status(400).send("User already exists");
+    return;
+  }
+);
+
+userRouter.post(
+  "/api/login",
+  async (req: Request, res: Response): Promise<void> => {
+    const validation = schemaUserLogin.validate(req.body);
+    if (validation.error) {
+      res.status(418).send(validation.error?.details);
+    }
+    const body: UserVerify = req.body;
+    const exists = await UserCases().login(body);
+    if (exists) {
+      const token = await tokenCreator().accessToken(body);
+      res.status(200).json({ accessToken: token });
+      return;
+    }
+    res.status(400).send("Invalid email or password");
     return;
   }
 );
