@@ -6,7 +6,7 @@ jobs:
   continuous-integration:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
         with:
           fetch-depth: 0
       - name: Setup node-version
@@ -23,14 +23,8 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1
-      - name: update github status
-        uses: actions/update-github-status@v1
-        with:
-          context: Continuous Integration
-          description: Build
-          event: success
-          sha: ${{ github.sha }}
-          target_url: ${{ github.workflow.url }}
+      - name: Build Application and Run unit Test
+        run: docker-compose down & docker-compose up -d
 
   # continuous-deployment:
   #   runs-on: ubuntu-latest
