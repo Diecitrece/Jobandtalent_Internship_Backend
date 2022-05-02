@@ -24,7 +24,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1
       - name: Build and test
-        run: yarn run build
+        run: yarn start
 
   continuous-deployment:
     runs-on: ubuntu-latest
