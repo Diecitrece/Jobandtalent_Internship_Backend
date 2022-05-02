@@ -24,14 +24,14 @@ export const userRepositoryPostgres = (): Respository<User> => {
       .select("*")
       .where({ id: id })
       .first();
-    return gotUser ? gotUser : undefined;
+    return gotUser || undefined;
   };
   const getOneByEmail = async (email: string) => {
     const gotUser: User = await db("users")
       .select("*")
       .where({ email: email })
       .first();
-    return gotUser ? gotUser : undefined;
+    return gotUser || undefined;
   };
   return { getAll, create, getOne, getOneByEmail };
 };

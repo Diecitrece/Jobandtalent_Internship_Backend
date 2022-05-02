@@ -41,7 +41,7 @@ export const UserCases = (): UserCRUD => {
   const login = async (item: UserVerify) => {
     const gotUser = await userRepositoryPostgres().getOneByEmail(item.email);
     if (!gotUser) {
-      return gotUser;
+      return undefined;
     }
     const passwordVerify = await passwordCrypt().password_compare(
       item.password,

@@ -1,10 +1,4 @@
-import {
-  NextFunction,
-  Request,
-  Response,
-  Router,
-  RequestHandler,
-} from "express";
+import { Request, Response, Router } from "express";
 import { UserCases } from "../../core/application/use-cases/user/user.use-cases";
 import { schemaUserLogin, schemaUserRegister } from "./validate-body";
 import {
@@ -13,25 +7,7 @@ import {
 } from "../../core/application/ports/input/userCRUD.port";
 import bodyParser from "body-parser";
 import { tokenManager } from "../../infrastructure/user/jwt/manageToken";
-
-const authenticateToken: RequestHandler = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader?.split(" ")[1];
-  if (!token) {
-    res.sendStatus(401);
-    return;
-  }
-  const verified = await tokenManager().verifyToken(token);
-  if (!verified) {
-    res.sendStatus(403);
-    return;
-  }
-  next();
-};
+import { authenticateToken } from "./middlewares/authenticateToken";
 
 export const userRouter = Router();
 userRouter.use(bodyParser.json());
