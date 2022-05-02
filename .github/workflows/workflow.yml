@@ -15,11 +15,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1
       - name: Build Application and Run unit Test
-        run: |
-          docker-compose down \
-          git pull
-          yarn install \
-          docker-compose up
+        run: docker-compose down & git pull & yarn install & docker-compose up -d
 
   # continuous-deployment:
   #   runs-on: ubuntu-latest
