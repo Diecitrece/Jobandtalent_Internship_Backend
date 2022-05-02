@@ -23,8 +23,8 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1
-      - name: Build Application and Run unit Test
-        run: docker-compose down & docker-compose up -d
+      - name: Build and test
+        run: yarn run build
 
   continuous-deployment:
     runs-on: ubuntu-latest
@@ -41,9 +41,7 @@ jobs:
         id: deploy
         run: |
           aws deploy create-deployment \
-            --application-name ${{ github.repository }} \
-            --deployment-group-name ${{ github.repository }} \
-            --deployment-config-name CodeDeployDefault.AllAtOnce \
-            --revision-sources \
-              Type=GitHub,Location={{ github.repository }},Revision={{ github.sha }} \
-            --description "Deployed by GitHub Actions"
+            --application-name application-name \
+            --deployment-group-name AppDeploymentGroupName \
+            --deployment-config-name CodeDeployDefault.OneAtATime \
+            --github-location repository=${{ github.repository }},commitId=${{ github.sha }}
