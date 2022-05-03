@@ -39,6 +39,6 @@ jobs:
         id: deploy
         run: |
           aws deploy create-deployment \
-            --application-name 480288188082 \
+            --application-name a-team-project-app \
             --deployment-group-name GroupATeamProject \
             --github-location repository=${{ github.repository }},commitId=${{ github.sha }}
