@@ -29,9 +29,13 @@ If you get some errors when you run the docker-compose, pay attention with:
 
 You can find deploy project at: http://ec2-3-121-224-101.eu-central-1.compute.amazonaws.com/
 
-Get all users: http://ec2-3-121-224-101.eu-central-1.compute.amazonaws.com/api/users
+Get all users: <br/>
+http://ec2-3-121-224-101.eu-central-1.compute.amazonaws.com/api/users<br/>
+Method: 'GET'
 
-Body to add one user:
+Body to add one user:<br/>
+http://ec2-3-121-224-101.eu-central-1.compute.amazonaws.com/api/users<br/>
+Method: 'POST'
 
 ```
 {
@@ -41,6 +45,35 @@ Body to add one user:
   "password": "DSdasjfl5467kdsjafs",
   "phone": "666111222",
   "address": "Some address, 5"
+}
+```
+
+Your output should be something like that:
+
+```
+  [
+	{
+		"id": "a66fd6fb-b86c-49e2-8dad-f01ba51b41c4",
+		"firstName": "someone",
+		"surNames": "onesurname",
+		"email": "example@gmail.com",
+		"password": "$2b$10$C5NviK3U2bcdzCyDwJ9zseUoq7vhoZQMocprinB/4OOJDnIxklwem",
+		"phone": "666111222",
+		"address": "Some address, 5",
+		"created_at": "2022-04-29T09:16:59.974Z",
+		"updated_at": "2022-04-29T09:16:59.974Z"
+	}
+]
+```
+
+Body to login user:
+http://ec2-3-121-224-101.eu-central-1.compute.amazonaws.com/api/login<br/>
+Method: 'POST'
+
+```
+{
+  "email": "example@gmail.com",
+  "password": "DSdasjfl5467kdsjafs",
 }
 ```
 
