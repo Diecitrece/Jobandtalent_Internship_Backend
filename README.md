@@ -67,7 +67,7 @@ Your output should be something like that:
 ```
 
 Body to login user:
-http://ec2-3-121-224-101.eu-central-1.compute.amazonaws.com/api/login<br/>
+http://ec2-3-121-224-101.eu-central-1.compute.amazonaws.com/api/users/login<br/>
 Method: 'POST'
 
 ```
@@ -76,5 +76,15 @@ Method: 'POST'
   "password": "DSdasjfl5467kdsjafs",
 }
 ```
+
+In your output, you can see a token:
+
+```
+  {
+	  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1ZGRyQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiM2VkUTJXIiwiaWF0IjoxNjUxNTcwNTI4LCJleHAiOjE2NTE1NzA1NjN9.vTCQGPs2IQ9zFHu2H2pczR6oPiKvMSxS459YmtaCM5Q"
+  }
+```
+
+With this token you can access to get users. The token will expire in 35 seconds.
 
 Enjoy 😇
