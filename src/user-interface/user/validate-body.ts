@@ -1,5 +1,9 @@
 import Joi, { ObjectSchema } from 'joi';
 
+const emailSchema = Joi.string().email({ minDomainSegments: 2 }).required();
+const passwordSchema = Joi.string()
+  .pattern(new RegExp("^[a-zA-Z0-9]{3,30}$"))
+  .required();
 export const schemaUserRegister: ObjectSchema = Joi.object({
   firstName: Joi.string()
     .min(3)
@@ -9,8 +13,13 @@ export const schemaUserRegister: ObjectSchema = Joi.object({
     .min(3)
     .max(60)
     .pattern(new RegExp(/^[\w\-\sÀ-ÿ]+$/)),
-  email: Joi.string().email({ minDomainSegments: 2 }).required(),
-  password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required(),
-  phone: Joi.string().alphanum().min(9).max(14),
+  email: emailSchema,
+  password: passwordSchema,
+  phone: Joi.string().alphanum().length(14),
   address: Joi.string(),
+});
+
+export const schemaUserLogin: ObjectSchema = Joi.object({
+  email: emailSchema,
+  password: passwordSchema,
 });
