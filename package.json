@@ -9,7 +9,8 @@
     "makeSeeds": "yarn knex seed:run --knexfile ./src/infrastructure/shared/database/knexfile.ts users-seed",
     "test": "NODE_ENV=test jest --verbose --coverage",
     "lint": "eslint . --ext .ts",
-    "migrate": "yarn knex migrate:latest --knexfile ./src/infrastructure/shared/database/knexfile.ts"
+    "migrate": "yarn knex migrate:latest --knexfile ./src/infrastructure/shared/database/knexfile.ts",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
