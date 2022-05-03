@@ -24,11 +24,11 @@ userRouter.get(
   "/api/users/:id",
   authenticateToken,
   async (req: Request, res: Response): Promise<void> => {
-    if (typeof req.query.id !== "string") {
+    if (typeof req.params.id !== "string") {
       res.status(400).send("Invalid ID");
       return;
     }
-    const id: string = req.query.id;
+    const id: string = req.params.id;
     const user = await UserCases().getOne(id);
     if (user) {
       res.status(200).json(user);
