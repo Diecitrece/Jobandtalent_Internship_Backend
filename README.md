@@ -19,11 +19,11 @@ Installation:
   The terminal ask you how many users you want create, just type a number you want
 - You can call differents endpoints:
   - Show all users
-    `http://localhost:8080/api/users`
+    `http://localhost:80/api/users`
 
 If you get some errors when you run the docker-compose, pay attention with:
 
-- Postgres image uses the port 5430
+- Postgres image uses the port 5432
 - App image uses the port 8080
 - .env variables have the required values
 
