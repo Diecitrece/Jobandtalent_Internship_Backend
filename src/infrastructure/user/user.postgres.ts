@@ -5,12 +5,12 @@ import configs from "../shared/database/knexfile";
 
 const db = knex(configs.development);
 export const userRepositoryPostgres = (): Respository<User> => {
-  const getAll = async () => {
+  const getAll = async (): Promise<User[]> => {
     const users = await db("users").select("*");
     return users as User[];
   };
 
-  const create = async (user: User) => {
+  const create = async (user: User): Promise<User | undefined> => {
     const userExist = await db("users").where("email", user.email);
     if (userExist.length > 0) {
       return undefined;
@@ -19,12 +19,19 @@ export const userRepositoryPostgres = (): Respository<User> => {
     return userCreated;
   };
 
-  const getOne = async (id: string) => {
+  const getOne = async (id: string): Promise<User | undefined> => {
     const gotUser: User = await db("users")
       .select("*")
       .where({ id: id })
       .first();
-    return gotUser ? gotUser : undefined;
+    return gotUser || undefined;
   };
-  return { getAll, create, getOne };
+  const getOneByEmail = async (email: string): Promise<User | undefined> => {
+    const gotUser: User = await db("users")
+      .select("*")
+      .where({ email: email })
+      .first();
+    return gotUser || undefined;
+  };
+  return { getAll, create, getOne, getOneByEmail };
 };
