@@ -2,7 +2,51 @@ name: CI/CD Pipeline
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
+    types: [opened, reopened, synchronize]
+
 jobs:
+  avoid_reduncy:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Cancel Previous Redundant Builds
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ github.token }}
+
+  lint:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v2
+        with:
+          cache: 'yarn'
+          node-version: '17.6.0'
+      - name: Install dependencies
+        run: yarn install
+      - name: Lint
+        run: yarn eslint
+
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v2
+        with:
+          cache: 'yarn'
+          node-version: '17.6.0'
+      - name: Install dependencies
+        run: yarn install
+      - uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: dist
+
   continuous-integration:
     runs-on: ubuntu-latest
     steps:
@@ -15,8 +59,6 @@ jobs:
           node-version: '17.6.0'
       - name: Install dependencies
         run: yarn install
-      - name: Linter status
-        run: yarn eslint
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -24,21 +66,17 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1
 
-  # continuous-deployment:
-  #   runs-on: ubuntu-latest
-  #   needs: [continuous-integration]
-  #   if: github.ref == 'refs/heads/main'
-  #   steps:
-  #     - name: Configure AWS credentials
-  #       uses: aws-actions/configure-aws-credentials@v1
-  #       with:
-  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws-region: eu-central-1
-  #     - name: Create CodeDeploy Deployment
-  #       id: deploy
-  #       run: |
-  #         aws deploy create-deployment \
-  #           --application-name a-team-project-app \
-  #           --deployment-group-name GroupATeamProject \
-  #           --github-location repository=${{ github.repository }},commitId=${{ github.sha }}
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: AWS SSM Send-Command
+        uses: peterkimzz/aws-ssm-send-command@master
+        id: ssm
+        with:
+          aws-region: eu-center-1
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          instance-ids: ${{ secrets.INSTANCE_ID }}
+          working-directory: /home/ec2-user/
+          command: git pull
