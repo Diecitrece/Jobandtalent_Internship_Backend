@@ -3,7 +3,7 @@ import nodemailer from "nodemailer";
 import { User } from "../../core/domain/user.model";
 
 export const emailNotifier = (): NotifierPort => {
-  const notify = async (user: User, message: string) => {
+  const notify = async (user: User, message: string): Promise<void> => {
     const transporter = nodemailer.createTransport({
       host: "smtp.zoho.eu",
       secure: true,
