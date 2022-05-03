@@ -63,6 +63,7 @@ userRouter.post(
     const validation = schemaUserLogin.validate(req.body);
     if (validation.error) {
       res.status(400).send(validation.error?.details[0].message);
+      return;
     }
     const body: UserVerify = req.body;
     const exists = await UserCases().login(body);
