@@ -11,7 +11,7 @@ import { emailNotifier } from "../../../../infrastructure/notifier/email.notifie
 import { passwordCrypt } from "../../../../infrastructure/shared/password_crypt";
 
 export const UserCases = (): UserCRUD => {
-  const create = async (data: UserCreation) => {
+  const create = async (data: UserCreation): Promise<User | undefined> => {
     const { firstName, surNames, email, password, phone, address } = data;
 
     const user: User = {
@@ -30,15 +30,15 @@ export const UserCases = (): UserCRUD => {
     }
     return newUser;
   };
-  const getAll = async () => {
+  const getAll = async (): Promise<User[]> => {
     return userRepositoryPostgres().getAll();
   };
 
-  const getOne = async (id: string) => {
+  const getOne = async (id: string): Promise<User | undefined> => {
     return userRepositoryPostgres().getOne(id);
   };
 
-  const login = async (item: UserVerify) => {
+  const login = async (item: UserVerify): Promise<User | undefined> => {
     const gotUser = await userRepositoryPostgres().getOneByEmail(item.email);
     if (!gotUser) {
       return undefined;
