@@ -8,18 +8,18 @@ Installation:
 
 - Clone the repository with:
   `git clone https://github.com/juanfril/A-team-project.git`\
+- Install dependecies with:
+  `yarn install`
 - Start docker project with:
   `docker-compose up`
 - Open a terminal inside the project with:
   `docker-compose exec app sh`
-- Install dependecies with:
-  `yarn install`
 - You can insert some data for testing using:
   `yarn makeSeeds` </br>
-  The terminal ask you how many users you want create, just type a number you want
+  The terminal will ask you how many users you want to create, just type a number you want
 - You can call differents endpoints:
-  - Show all users
-    `http://localhost:80/api/users`
+  - Home page to check the connection
+    `http://localhost:80/`
 
 If you get some errors when you run the docker-compose, pay attention with:
 
@@ -27,11 +27,23 @@ If you get some errors when you run the docker-compose, pay attention with:
 - App image uses the port 8080
 - .env variables have the required values
 
-You can find deploy project at: http://ec2-3-121-224-101.eu-central-1.compute.amazonaws.com/
+You can find the deployed project at: http://ec2-3-121-224-101.eu-central-1.compute.amazonaws.com/
 
-Get all users: <br/>
+### Methods:
+
+---
+
+Get all users (Token required): <br/>
 http://ec2-3-121-224-101.eu-central-1.compute.amazonaws.com/api/users<br/>
 Method: 'GET'
+
+---
+
+Get one user (Token required): <br/>
+http://ec2-3-121-224-101.eu-central-1.compute.amazonaws.com/api/users/:id<br/>
+ - Where ':id' is the ID of whichever user you are searching for.<br/>
+Method: 'GET'
+---
 
 Body to add one user:<br/>
 http://ec2-3-121-224-101.eu-central-1.compute.amazonaws.com/api/users<br/>
@@ -66,8 +78,10 @@ Your output should be something like that:
 ]
 ```
 
+---
+
 Body to login user:
-http://ec2-3-121-224-101.eu-central-1.compute.amazonaws.com/api/login<br/>
+http://ec2-3-121-224-101.eu-central-1.compute.amazonaws.com/api/users/login<br/>
 Method: 'POST'
 
 ```
@@ -77,4 +91,14 @@ Method: 'POST'
 }
 ```
 
-Enjoy 😇
+In your output, you can see a token:
+
+```
+  {
+	  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1ZGRyQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiM2VkUTJXIiwiaWF0IjoxNjUxNTcwNTI4LCJleHAiOjE2NTE1NzA1NjN9.vTCQGPs2IQ9zFHu2H2pczR6oPiKvMSxS459YmtaCM5Q"
+  }
+```
+
+With this token you can access to 'getAllUsers' and 'getOneUser' endpoints. The token will expire after 35 seconds.
+
+### Enjoy 😇
