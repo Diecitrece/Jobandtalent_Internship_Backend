@@ -7,7 +7,6 @@ describe('passwordCrypt', () => {
   const password_crypt = passwordCrypt();
 
   test('password_crypt', async () => {
-    (bcrypt.genSalt as jest.Mock).mockResolvedValue('salt');
     (bcrypt.hash as jest.Mock).mockResolvedValue('hash');
     const password = 'password';
     const result = await password_crypt.password_crypt(password);
