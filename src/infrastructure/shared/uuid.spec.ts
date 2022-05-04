@@ -1,11 +1,11 @@
-import * as uuid from 'uuid';
 import { generateId } from './uuid';
 
-jest.mock('uuid');
+jest.mock('uuid', () => ({
+  v4: jest.fn().mockReturnValue('123'),
+}));
 
 describe('generateId', () => {
   it('should return a uuid', () => {
-    (uuid.v4 as jest.Mock).mockReturnValue('123');
     expect(generateId()).toBe('123');
   });
 });
