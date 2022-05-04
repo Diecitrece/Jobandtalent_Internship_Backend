@@ -7,7 +7,7 @@
     "start": "NODE_ENV=producction tsc && node .",
     "dev": "NODE_ENV=development ts-node-dev src/index.ts",
     "makeSeeds": "yarn knex seed:run --knexfile ./src/infrastructure/shared/database/knexfile.ts users-seed",
-    "test": "NODE_ENV=test jest --verbose --coverage",
+    "test": "NODE_ENV=test jest --verbose --coverage --passWithNoTests",
     "lint": "eslint . --ext .ts",
     "migrate": "yarn knex migrate:latest --knexfile ./src/infrastructure/shared/database/knexfile.ts",
     "build": "tsc"
