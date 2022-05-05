@@ -9,6 +9,15 @@ import bodyParser from "body-parser";
 import { tokenManager } from "../../infrastructure/user/jwt/manageToken";
 import { authenticateToken } from "./middlewares/authenticateToken";
 
+interface UserReturning {
+  id: string;
+  firstName: string;
+  surNames: string;
+  email: string;
+  phone: string;
+  address: string;
+}
+
 export const userRouter = Router();
 userRouter.use(bodyParser.json());
 userRouter.get(
@@ -16,7 +25,18 @@ userRouter.get(
   authenticateToken,
   async (req: Request, res: Response): Promise<void> => {
     const users = await UserCases().getAll();
-    res.status(200).json(users);
+    const usersReturn: UserReturning[] = [];
+    users.map((user) => {
+      usersReturn.push({
+        id: user.id,
+        firstName: user.firstName,
+        surNames: user.surNames,
+        email: user.email,
+        phone: user.phone,
+        address: user.address,
+      });
+    });
+    res.status(200).json(usersReturn);
     return;
   }
 );
@@ -31,7 +51,14 @@ userRouter.get(
     const id: string = req.params.id;
     const user = await UserCases().getOne(id);
     if (user) {
-      res.status(200).json(user);
+      res.status(200).json({
+        id: user.id,
+        firstName: user.firstName,
+        surNames: user.surNames,
+        email: user.email,
+        phone: user.phone,
+        address: user.address,
+      });
       return;
     }
     res.status(404).send("User not found");
@@ -49,7 +76,15 @@ userRouter.post(
     const body: UserCreation = req.body;
     const newUser = await UserCases().create(body);
     if (newUser) {
-      res.status(201).json(newUser);
+      console.log(newUser.id);
+      res.status(201).json({
+        id: newUser.id,
+        firstName: newUser.firstName,
+        surNames: newUser.surNames,
+        email: newUser.email,
+        phone: newUser.phone,
+        address: newUser.address,
+      });
       return;
     }
     res.status(400).send("User already exists");
