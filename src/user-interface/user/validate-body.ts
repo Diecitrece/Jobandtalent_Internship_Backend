@@ -48,7 +48,7 @@ export const schemaUserRegister: ObjectSchema = Joi.object({
       "string.empty": "Your last name can not be empty",
       "string.min": "Your last name lenght must be at least 3 characters long",
       "string.max":
-        "Your last name can not contain more than 60 characters. ¿Are you basque?",
+        "Your last name can not contain more than 60 characters. Are you basque?",
       "string.trim":
         "Your last name contains some whitespaces at the beginning and/or at the end of the field",
     }),
