@@ -103,4 +103,8 @@ describe('userRepositoryPostgres', () => {
     expect(user).toBeDefined();
     expect(user).toEqual(users[0]);
   });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 });
