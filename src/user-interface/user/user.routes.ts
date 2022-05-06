@@ -76,7 +76,6 @@ userRouter.post(
     const body: UserCreation = req.body;
     const newUser = await UserCases().create(body);
     if (newUser) {
-      console.log(newUser.id);
       res.status(201).json({
         id: newUser.id,
         firstName: newUser.firstName,
