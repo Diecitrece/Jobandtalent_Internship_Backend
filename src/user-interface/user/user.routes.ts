@@ -1,5 +1,4 @@
 import { Request, Response, Router } from "express";
-import { UserCases } from "../../core/application/use-cases/user/user.use-cases";
 import { schemaUserLogin, schemaUserRegister } from "./validate-body";
 import {
   UserCreation,
@@ -8,6 +7,7 @@ import {
 import bodyParser from "body-parser";
 import { tokenManager } from "../../infrastructure/user/jwt/manageToken";
 import { authenticateToken } from "./middlewares/authenticateToken";
+import { UserCases } from "../../core/application/use-cases/user/user.use-cases";
 
 export const userRouter = Router();
 userRouter.use(bodyParser.json());

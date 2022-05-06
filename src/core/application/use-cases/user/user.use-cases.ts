@@ -1,14 +1,18 @@
 import { User } from "../../../domain/user.model";
-import { userRepositoryPostgres } from "../../../../infrastructure/user/user.postgres";
-import { consoleNotifier } from "../../../../infrastructure/notifier/console.notifier";
 import {
   UserCreation,
   UserCRUD,
   UserVerify,
 } from "../../ports/input/userCRUD.port";
+//Must abstract:
+// import { userRepository } from "../../../../infrastructure/user/user.postgres";
+import { consoleNotifier } from "../../../../infrastructure/notifier/console.notifier";
 import { generateId } from "../../../../infrastructure/shared/uuid";
 import { emailNotifier } from "../../../../infrastructure/notifier/email.notifier";
 import { passwordCrypt } from "../../../../infrastructure/shared/password_crypt";
+
+import { dependenciesContainer } from "../../../../infrastructure/shared/dependency_injection";
+const userRepository = dependenciesContainer.resolve("userRepository");
 
 export const UserCases = (): UserCRUD => {
   const create = async (data: UserCreation): Promise<User | undefined> => {
@@ -23,7 +27,7 @@ export const UserCases = (): UserCRUD => {
       phone: phone,
       address: address,
     };
-    const newUser = await userRepositoryPostgres().create(user);
+    const newUser = await userRepository.create(user);
     if (newUser) {
       consoleNotifier().notify(user, "Hello");
       emailNotifier().notify(user, "Welcome to Jobandtalent");
@@ -31,15 +35,15 @@ export const UserCases = (): UserCRUD => {
     return newUser;
   };
   const getAll = async (): Promise<User[]> => {
-    return userRepositoryPostgres().getAll();
+    return userRepository.getAll();
   };
 
   const getOne = async (id: string): Promise<User | undefined> => {
-    return userRepositoryPostgres().getOne(id);
+    return userRepository.getOne(id);
   };
 
   const login = async (item: UserVerify): Promise<User | undefined> => {
-    const gotUser = await userRepositoryPostgres().getOneByEmail(item.email);
+    const gotUser = await userRepository.getOneByEmail(item.email);
     if (!gotUser) {
       return undefined;
     }
