@@ -27,26 +27,26 @@ If you get some errors when you run the docker-compose, pay attention with:
 - App image uses the port 8080
 - .env variables have the required values
 
-You can find the deployed project at: http://ec2-3-121-224-101.eu-central-1.compute.amazonaws.com/
+You can find the deployed project at: http://ec2-52-59-191-81.eu-central-1.compute.amazonaws.com/
 
 ### Methods:
 
 ---
 
 Get all users (Token required): <br/>
-http://ec2-3-121-224-101.eu-central-1.compute.amazonaws.com/api/users<br/>
+http://ec2-52-59-191-81.eu-central-1.compute.amazonaws.com//api/users<br/>
 Method: 'GET'
 
 ---
 
 Get one user (Token required): <br/>
-http://ec2-3-121-224-101.eu-central-1.compute.amazonaws.com/api/users/:id<br/>
+http://ec2-52-59-191-81.eu-central-1.compute.amazonaws.com//api/users/:id<br/>
  - Where ':id' is the ID of whichever user you are searching for.<br/>
 Method: 'GET'
 ---
 
 Body to add one user:<br/>
-http://ec2-3-121-224-101.eu-central-1.compute.amazonaws.com/api/users<br/>
+http://ec2-52-59-191-81.eu-central-1.compute.amazonaws.com//api/users<br/>
 Method: 'POST'
 
 ```
@@ -81,7 +81,7 @@ Your output should be something like that:
 ---
 
 Body to login user:
-http://ec2-3-121-224-101.eu-central-1.compute.amazonaws.com/api/users/login<br/>
+http://ec2-52-59-191-81.eu-central-1.compute.amazonaws.com//api/users/login<br/>
 Method: 'POST'
 
 ```
