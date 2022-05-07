@@ -70,7 +70,7 @@ export const emailNotifier = (): NotifierPort => {
                   </tr>
                   <tr>
                     <td style="padding-top: 24px; vertical-align: bottom">
-                      Hi Juan,
+                      Hi ${user.email},
                     </td>
                   </tr>
                   <tr>
@@ -106,6 +106,10 @@ export const emailNotifier = (): NotifierPort => {
                           >https://jobandtalent.<wbr />freshservice.com/support/home</span
                         ></a
                       >
+                      <img
+                        src="https://st.depositphotos.com/1969477/1871/v/600/depositphotos_18714827-stock-illustration-welcome.jpg"
+                        alt=""
+                      />
                     </td>
                   </tr>
                 </tbody>
