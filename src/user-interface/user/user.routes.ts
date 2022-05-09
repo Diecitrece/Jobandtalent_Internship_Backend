@@ -1,10 +1,10 @@
-import { Request, Response, Router } from 'express';
-import { UserCases } from '../../core/application/use-cases/user/user.use-cases';
-import { schemaUserLogin, schemaUserRegister } from './validate-body';
-import { UserCreation, UserVerify } from '@ports/input/userCRUD.port';
 import bodyParser from 'body-parser';
-import { tokenManager } from '../../infrastructure/user/jwt/manageToken';
+import { Request, Response, Router } from 'express';
 import { authenticateToken } from './middlewares/authenticateToken';
+import { UserCreation, UserVerify } from '@ports/input/userCRUD.port';
+import { schemaUserLogin, schemaUserRegister } from './validate-body';
+import { UserCases } from '../../core/application/use-cases/user/user.use-cases';
+import { tokenManager } from '../../infrastructure/user/jwt/manageToken';
 
 export const userRouter = Router();
 userRouter.use(bodyParser.json());
