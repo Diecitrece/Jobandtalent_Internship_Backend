@@ -9,6 +9,7 @@ const db =
     : knex(configs.development);
 
 export const userRepositoryPostgres = (): Respository<User> => {
+
   const getAll = async (): Promise<User[]> => {
     const users = await db('users').select('*');
     return users as User[];
