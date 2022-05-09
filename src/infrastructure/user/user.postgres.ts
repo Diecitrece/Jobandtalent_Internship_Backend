@@ -1,10 +1,10 @@
 import knex from "knex";
-import { Respository } from "../../core/application/ports/output/repository.port";
+import { UserRepository } from "../../core/application/ports/output/repository.port";
 import { User } from "../../core/domain/user.model";
 import configs from "../shared/database/knexfile";
 
 const db = knex(configs.development);
-export const userRepositoryPostgres = (): Respository<User> => {
+export const userRepositoryPostgres = (): UserRepository<User> => {
   const getAll = async (): Promise<User[]> => {
     const users = await db("users").select("*");
     return users as User[];
