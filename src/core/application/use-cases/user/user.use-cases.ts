@@ -30,7 +30,7 @@ export const UserCases = (): UserCRUD => {
     const newUser = await userRepository.create(user);
     if (newUser) {
       consoleNotifier().notify(user, "Hello");
-      emailNotifier().notify(user, "Welcome to Jobandtalent");
+      emailNotifier().notify(user, "Welcome to Jobandtalent!");
     }
     return newUser;
   };

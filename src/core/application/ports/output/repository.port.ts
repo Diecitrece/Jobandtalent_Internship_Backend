@@ -1,6 +1,8 @@
-export interface Respository<Type> {
+export interface Repository<Type> {
   create: (arg: Type) => Promise<Type | undefined>;
   getAll: () => Promise<Type[]>;
   getOne: (id: string) => Promise<Type | undefined>;
-  getOneByEmail: (email: string) => Promise<Type | undefined>;
+}
+export interface UserRepository<User> extends Repository<User> {
+  getOneByEmail: (email: string) => Promise<User | undefined>;
 }

@@ -7,14 +7,14 @@ Fixes # (issue)
 
 ## Type of change
 
-- [ ] Bug fix (non-breaking change which fixes an issue)
-- [ ] New feature (non-breaking change which adds functionality)
-- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
-- [ ] Structure change (changes project's structure and refactor dependencies)
-- [ ] Code cleaning (optimize code and removes dead code)
-- [ ] Testing (creation of unit, integration and e2e tests without changing anything)
-- [ ] Documentation
+- [x] Bug fix (non-breaking change which fixes an issue)
+- [x] New feature (non-breaking change which adds functionality)
+- [x] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [x] Structure change (changes project's structure and refactor dependencies)
+- [x] Code cleaning (optimize code and removes dead code)
+- [x] Testing (creation of unit, integration and e2e tests without changing anything)
+- [x] Documentation
 
 # Checklist:
 
-- [ ] My changes generate no new warnings
+- [x] My changes generate no new warnings
