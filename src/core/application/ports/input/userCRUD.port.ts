@@ -1,4 +1,5 @@
-import { User } from "../../../domain/user.model";
+import { User } from '@domain/user.model';
+
 export interface UserCreation {
   firstName: string;
   surNames: string;

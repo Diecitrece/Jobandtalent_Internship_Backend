@@ -1,18 +1,15 @@
-import { Request, Response, Router } from "express";
-import { UserCases } from "../../core/application/use-cases/user/user.use-cases";
-import { schemaUserLogin, schemaUserRegister } from "./validate-body";
-import {
-  UserCreation,
-  UserVerify,
-} from "../../core/application/ports/input/userCRUD.port";
-import bodyParser from "body-parser";
-import { tokenManager } from "../../infrastructure/user/jwt/manageToken";
-import { authenticateToken } from "./middlewares/authenticateToken";
+import { Request, Response, Router } from 'express';
+import { UserCases } from '../../core/application/use-cases/user/user.use-cases';
+import { schemaUserLogin, schemaUserRegister } from './validate-body';
+import { UserCreation, UserVerify } from '@ports/input/userCRUD.port';
+import bodyParser from 'body-parser';
+import { tokenManager } from '../../infrastructure/user/jwt/manageToken';
+import { authenticateToken } from './middlewares/authenticateToken';
 
 export const userRouter = Router();
 userRouter.use(bodyParser.json());
 userRouter.get(
-  "/api/users",
+  '/api/users',
   authenticateToken,
   async (req: Request, res: Response): Promise<void> => {
     const users = await UserCases().getAll();
@@ -21,11 +18,11 @@ userRouter.get(
   }
 );
 userRouter.get(
-  "/api/users/:id",
+  '/api/users/:id',
   authenticateToken,
   async (req: Request, res: Response): Promise<void> => {
-    if (typeof req.params.id !== "string") {
-      res.status(400).send("Invalid ID");
+    if (typeof req.params.id !== 'string') {
+      res.status(400).send('Invalid ID');
       return;
     }
     const id: string = req.params.id;
@@ -34,12 +31,12 @@ userRouter.get(
       res.status(200).json(user);
       return;
     }
-    res.status(404).send("User not found");
+    res.status(404).send('User not found');
     return;
   }
 );
 userRouter.post(
-  "/api/users",
+  '/api/users',
   async (req: Request, res: Response): Promise<void> => {
     const validation = schemaUserRegister.validate(req.body);
     if (validation.error) {
@@ -52,13 +49,13 @@ userRouter.post(
       res.status(201).json(newUser);
       return;
     }
-    res.status(400).send("User already exists");
+    res.status(400).send('User already exists');
     return;
   }
 );
 
 userRouter.post(
-  "/api/users/login",
+  '/api/users/login',
   async (req: Request, res: Response): Promise<void> => {
     const validation = schemaUserLogin.validate(req.body);
     if (validation.error) {
@@ -72,7 +69,7 @@ userRouter.post(
       res.status(200).json({ accessToken: token });
       return;
     }
-    res.status(400).send("Invalid email or password");
+    res.status(400).send('Invalid email or password');
     return;
   }
 );
