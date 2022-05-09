@@ -2,8 +2,8 @@ import { Knex } from 'knex';
 import { v4 } from 'uuid';
 import { faker } from '@faker-js/faker';
 import PromptSync from 'prompt-sync';
-import { User } from '@domain/user.model';
 import { passwordCrypt } from '../../password_crypt';
+import { User } from '@core/domain/user.model';
 
 const generateId = () => v4();
 function promptUserNumber(): number {

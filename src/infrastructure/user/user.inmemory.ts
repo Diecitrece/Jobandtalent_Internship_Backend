@@ -1,5 +1,5 @@
-import { Respository } from '@ports/output/repository.port';
-import { User } from '@domain/user.model';
+import { Respository } from '@core/application/ports/output/repository.port';
+import { User } from '@core/domain/user.model';
 import initialUsers from '../../__mocks__/db-mocks';
 
 export const UserInMemory = (): Respository<User> => {

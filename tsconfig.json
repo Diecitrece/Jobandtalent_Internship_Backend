@@ -31,11 +31,7 @@
     "paths": {
       "@core/*": ["core/*"],
       "@infrastructure/*": ["infrastructure/*"],
-      "@user-interface/*": ["user-interface/*"],
-      "@domain/*": ["core/domain/*"],
-      "@application/*": ["core/application/*"],
-      "@ports/*": ["core/application/ports/*"],
-      "@shared/*": ["infrastructure/shared/*"]
+      "@user-interface/*": ["user-interface/*"]
     },
     /* Specify a set of entries that re-map imports to additional lookup locations. */ // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     // "typeRoots": [],                                  /* Specify multiple folders that act like `./node_modules/@types`. */

@@ -1,7 +1,7 @@
 import knex from 'knex';
-import { Respository } from '@ports/output/repository.port';
-import { User } from '@domain/user.model';
 import configs from '../shared/database/knexfile';
+import { Respository } from '@core/application/ports/output/repository.port';
+import { User } from '@core/domain/user.model';
 
 const db = knex(configs.development);
 export const userRepositoryPostgres = (): Respository<User> => {

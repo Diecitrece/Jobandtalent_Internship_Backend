@@ -1,6 +1,6 @@
-import { NotifierPort } from '@ports/output/notifier.port';
+import { NotifierPort } from '@core/application/ports/output/notifier.port';
+import { User } from '@core/domain/user.model';
 import nodemailer from 'nodemailer';
-import { User } from '@domain/user.model';
 
 export const emailNotifier = (): NotifierPort => {
   const notify = async (user: User, message: string): Promise<void> => {

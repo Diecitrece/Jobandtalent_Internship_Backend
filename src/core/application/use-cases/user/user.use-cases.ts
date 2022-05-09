@@ -1,10 +1,14 @@
-import { User } from '@domain/user.model';
-import { UserCreation, UserCRUD, UserVerify } from '@ports/input/userCRUD.port';
-import { userRepositoryPostgres } from '../../../../infrastructure/user/user.postgres';
+import {
+  UserCRUD,
+  UserCreation,
+  UserVerify,
+} from '@core/application/ports/input/userCRUD.port';
+import { User } from '@core/domain/user.model';
 import { consoleNotifier } from '../../../../infrastructure/notifier/console.notifier';
-import { generateId } from '../../../../infrastructure/shared/uuid';
 import { emailNotifier } from '../../../../infrastructure/notifier/email.notifier';
 import { passwordCrypt } from '../../../../infrastructure/shared/password_crypt';
+import { generateId } from '../../../../infrastructure/shared/uuid';
+import { userRepositoryPostgres } from '../../../../infrastructure/user/user.postgres';
 
 export const UserCases = (): UserCRUD => {
   const create = async (data: UserCreation): Promise<User | undefined> => {

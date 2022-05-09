@@ -1,5 +1,5 @@
+import { PasswordCrypt } from '@core/application/ports/output/password_crypt.port';
 import bcrypt from 'bcrypt';
-import { PasswordCrypt } from '@ports/output/password_crypt.port';
 
 export const passwordCrypt = (): PasswordCrypt => {
   const password_crypt = async (password: string): Promise<string> => {
