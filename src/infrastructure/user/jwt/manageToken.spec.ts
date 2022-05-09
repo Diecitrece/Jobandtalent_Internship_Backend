@@ -2,12 +2,12 @@ import { UserVerify } from '../../../core/application/ports/input/userCRUD.port'
 import { tokenManager } from './manageToken';
 
 //mock the tokenManager
-jest.mock('./manageToken', () => {
-  return {
-    accessToken: jest.fn().mockReturnValue('accessToken'),
+jest.mock('./manageToken', () => ({
+  tokenManager: jest.fn().mockReturnValue({
+    accessToken: jest.fn().mockReturnValue('123'),
     verifyToken: jest.fn().mockReturnValue(true),
-  };
-});
+  }),
+}));
 
 describe('tokenManager', () => {
   const item: UserVerify = {
@@ -15,12 +15,12 @@ describe('tokenManager', () => {
     password: '123456',
   };
 
-  it('should return accessToken', async () => {
-    const accessToken = await tokenManager().accessToken(item);
-    expect(accessToken).toBe('accessToken');
+  it('should return a token', async () => {
+    const token = await tokenManager().accessToken(item);
+    expect(token).toBe('123');
   });
-  it('should return true', async () => {
-    const verified = await tokenManager().verifyToken('token');
-    expect(verified).toBe(true);
+  it('should return a boolean', async () => {
+    const token = await tokenManager().verifyToken('123');
+    expect(token).toBe(true);
   });
 });
