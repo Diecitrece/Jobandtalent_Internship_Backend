@@ -1,11 +1,12 @@
-import { NotifierPort } from "../../core/application/ports/output/notifier.port";
-import nodemailer from "nodemailer";
-import { User } from "../../core/domain/user.model";
+import { NotifierPort } from '../../core/application/ports/output/notifier.port';
+import nodemailer from 'nodemailer';
+import { User } from '../../core/domain/user.model';
+import { registrationTemplate } from './templates/registration.template';
 
 export const emailNotifier = (): NotifierPort => {
   const notify = async (user: User, message: string): Promise<void> => {
     const transporter = nodemailer.createTransport({
-      host: "smtp.zoho.eu",
+      host: 'smtp.zoho.eu',
       secure: true,
       port: 465,
       auth: {
@@ -17,7 +18,7 @@ export const emailNotifier = (): NotifierPort => {
       from: process.env.EMAIL_NODEMAILER,
       to: user.email,
       subject: `Message From A-Team-Project`,
-      text: `${message} ${user.firstName}`,
+      html: registrationTemplate(user, message),
     };
 
     transporter.verify((error) => {
@@ -25,7 +26,7 @@ export const emailNotifier = (): NotifierPort => {
         console.log(`Mailing server error: ${error}`);
         return;
       }
-      console.log("Mailing server is up");
+      console.log('Mailing server is up');
     });
 
     transporter.sendMail(mailData);
