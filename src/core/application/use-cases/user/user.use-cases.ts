@@ -1,14 +1,14 @@
-import { User } from "../../../domain/user.model";
-import { userRepositoryPostgres } from "../../../../infrastructure/user/user.postgres";
-import { consoleNotifier } from "../../../../infrastructure/notifier/console.notifier";
 import {
-  UserCreation,
   UserCRUD,
+  UserCreation,
   UserVerify,
-} from "../../ports/input/userCRUD.port";
-import { generateId } from "../../../../infrastructure/shared/uuid";
-import { emailNotifier } from "../../../../infrastructure/notifier/email.notifier";
-import { passwordCrypt } from "../../../../infrastructure/shared/password_crypt";
+} from '@core/application/ports/input/userCRUD.port';
+import { User } from '@core/domain/user.model';
+import { consoleNotifier } from '../../../../infrastructure/notifier/console.notifier';
+import { emailNotifier } from '../../../../infrastructure/notifier/email.notifier';
+import { passwordCrypt } from '../../../../infrastructure/shared/password_crypt';
+import { generateId } from '../../../../infrastructure/shared/uuid';
+import { userRepositoryPostgres } from '../../../../infrastructure/user/user.postgres';
 
 export const UserCases = (): UserCRUD => {
   const create = async (data: UserCreation): Promise<User | undefined> => {
@@ -25,8 +25,8 @@ export const UserCases = (): UserCRUD => {
     };
     const newUser = await userRepositoryPostgres().create(user);
     if (newUser) {
-      consoleNotifier().notify(user, "Hello");
-      emailNotifier().notify(user, "Welcome to Jobandtalent");
+      consoleNotifier().notify(user, 'Hello');
+      emailNotifier().notify(user, 'Welcome to Jobandtalent');
     }
     return newUser;
   };
