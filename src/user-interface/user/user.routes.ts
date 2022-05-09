@@ -1,4 +1,5 @@
 import { Request, Response, Router } from "express";
+import { User } from "../../core/domain/user.model";
 import { UserCases } from "../../core/application/use-cases/user/user.use-cases";
 import { schemaUserLogin, schemaUserRegister } from "./validate-body";
 import {
@@ -9,7 +10,7 @@ import bodyParser from "body-parser";
 import { tokenManager } from "../../infrastructure/user/jwt/manageToken";
 import { authenticateToken } from "./middlewares/authenticateToken";
 
-interface UserReturning {
+interface ReturnUserFormat {
   id: string;
   firstName: string;
   surNames: string;
@@ -18,6 +19,17 @@ interface UserReturning {
   address: string;
 }
 
+export const returnUserMapping = (user: User) => {
+  return {
+    id: user.id,
+    firstName: user.firstName,
+    surNames: user.surNames,
+    email: user.email,
+    phone: user.phone,
+    address: user.address,
+  };
+};
+
 export const userRouter = Router();
 userRouter.use(bodyParser.json());
 userRouter.get(
@@ -25,16 +37,9 @@ userRouter.get(
   authenticateToken,
   async (req: Request, res: Response): Promise<void> => {
     const users = await UserCases().getAll();
-    const usersReturn: UserReturning[] = [];
+    const usersReturn: ReturnUserFormat[] = [];
     users.map((user) => {
-      usersReturn.push({
-        id: user.id,
-        firstName: user.firstName,
-        surNames: user.surNames,
-        email: user.email,
-        phone: user.phone,
-        address: user.address,
-      });
+      usersReturn.push(returnUserMapping(user));
     });
     res.status(200).json(usersReturn);
     return;
@@ -51,14 +56,7 @@ userRouter.get(
     const id: string = req.params.id;
     const user = await UserCases().getOne(id);
     if (user) {
-      res.status(200).json({
-        id: user.id,
-        firstName: user.firstName,
-        surNames: user.surNames,
-        email: user.email,
-        phone: user.phone,
-        address: user.address,
-      });
+      res.status(200).json(returnUserMapping(user));
       return;
     }
     res.status(404).send("User not found");
@@ -76,14 +74,7 @@ userRouter.post(
     const body: UserCreation = req.body;
     const newUser = await UserCases().create(body);
     if (newUser) {
-      res.status(201).json({
-        id: newUser.id,
-        firstName: newUser.firstName,
-        surNames: newUser.surNames,
-        email: newUser.email,
-        phone: newUser.phone,
-        address: newUser.address,
-      });
+      res.status(201).json(returnUserMapping(newUser));
       return;
     }
     res.status(400).send("User already exists");
