@@ -1,6 +1,6 @@
 ## A-team-project for job&talent/devaway
 
-[![CI/CD Pipeline](https://github.com/juanfril/A-team-project/actions/workflows/workflow.yml/badge.svg?branch=main)](https://github.com/juanfril/A-team-project/actions/workflows/workflow.yml)
+[![CI/CD Development](https://github.com/juanfril/A-team-project/actions/workflows/development.yml/badge.svg)](https://github.com/juanfril/A-team-project/actions/workflows/development.yml)
 
 This project has been created to help people find the best job ever.
 
