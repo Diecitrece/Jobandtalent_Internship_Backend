@@ -10,7 +10,7 @@ import bodyParser from "body-parser";
 import { tokenManager } from "../../infrastructure/user/jwt/manageToken";
 import { authenticateToken } from "./middlewares/authenticateToken";
 
-interface ReturnUserFormat {
+export interface ReturnUserFormat {
   id: string;
   firstName: string;
   surNames: string;
