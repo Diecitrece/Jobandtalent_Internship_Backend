@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express';
-import { User } from '../../core/domain/user.model';
+import { User, UserRoles } from '../../core/domain/user.model';
 import { schemaUserLogin, schemaUserRegister } from './validate-body';
 import {
   UserCreation,
@@ -19,7 +19,7 @@ export interface ReturnUserFormat {
   email: string;
   phone: string;
   address: string;
-  role: string;
+  role: UserRoles;
 }
 
 export const returnUserMapping = (user: User) => {
