@@ -19,7 +19,7 @@ export const userRepositoryPostgres = (): UserRepository => {
     if (userExist.length > 0) {
       return undefined;
     }
-    const userCreated: User = await db("users").insert(user, ["*"]);
+    const userCreated: User = (await db("users").insert(user, ["*"]))[0];
     return userCreated;
   };
 
