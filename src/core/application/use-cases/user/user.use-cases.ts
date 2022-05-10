@@ -1,16 +1,25 @@
+import { User } from '../../../domain/user.model';
 import {
   UserCRUD,
   UserCreation,
   UserVerify,
-} from '@core/application/ports/input/userCRUD.port';
-import { User } from '@core/domain/user.model';
-import { consoleNotifier } from '../../../../infrastructure/notifier/console.notifier';
-import { emailNotifier } from '../../../../infrastructure/notifier/email.notifier';
-import { passwordCrypt } from '../../../../infrastructure/shared/password_crypt';
-import { generateId } from '../../../../infrastructure/shared/uuid';
-import { userRepositoryPostgres } from '../../../../infrastructure/user/user.postgres';
+} from '../../ports/input/userCRUD.port';
 
-export const UserCases = (): UserCRUD => {
+import { dependenciesContainer } from '../../../../infrastructure/shared/dependency_injection';
+import { PasswordCrypt } from '../../ports/output/password_crypt.port';
+import { UserRepository } from '../../ports/output/repository.port';
+import { NotifierPort } from '../../ports/output/notifier.port';
+
+export const userCases = (): UserCRUD => {
+  const generateId: () => string = dependenciesContainer.cradle.generateId;
+  const passwordCrypt: () => PasswordCrypt =
+    dependenciesContainer.cradle.passwordCrypt;
+  const userRepository: () => UserRepository =
+    dependenciesContainer.cradle.userRepository;
+  const consoleNotifier: () => NotifierPort =
+    dependenciesContainer.cradle.consoleNotifier;
+  const emailNotifier: () => NotifierPort =
+    dependenciesContainer.cradle.emailNotifier;
   const create = async (data: UserCreation): Promise<User | undefined> => {
     const { firstName, surNames, email, password, phone, address } = data;
 
@@ -23,23 +32,23 @@ export const UserCases = (): UserCRUD => {
       phone: phone,
       address: address,
     };
-    const newUser = await userRepositoryPostgres().create(user);
+    const newUser = await userRepository().create(user);
     if (newUser) {
       consoleNotifier().notify(user, 'Hello');
-      emailNotifier().notify(user, 'Welcome to Jobandtalent');
+      emailNotifier().notify(user, 'Welcome to Jobandtalent!');
     }
     return newUser;
   };
   const getAll = async (): Promise<User[]> => {
-    return userRepositoryPostgres().getAll();
+    return userRepository().getAll();
   };
 
   const getOne = async (id: string): Promise<User | undefined> => {
-    return userRepositoryPostgres().getOne(id);
+    return userRepository().getOne(id);
   };
 
   const login = async (item: UserVerify): Promise<User | undefined> => {
-    const gotUser = await userRepositoryPostgres().getOneByEmail(item.email);
+    const gotUser = await userRepository().getOneByEmail(item.email);
     if (!gotUser) {
       return undefined;
     }

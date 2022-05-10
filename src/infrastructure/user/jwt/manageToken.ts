@@ -5,7 +5,11 @@ import jwt, { Secret } from 'jsonwebtoken';
 const secretKey = process.env.JWT_SECRET_KEY;
 export const tokenManager = (): TokenPort => {
   const accessToken = async (item: UserVerify): Promise<string> => {
+<<<<<<< HEAD
     return jwt.sign(item, secretKey as Secret, { expiresIn: '35s' });
+=======
+    return jwt.sign(item, secretKey as Secret, { expiresIn: "15m" });
+>>>>>>> development
   };
   const verifyToken = async (token: string): Promise<boolean> => {
     try {

@@ -1,6 +1,7 @@
-import { NotifierPort } from '@core/application/ports/output/notifier.port';
-import { User } from '@core/domain/user.model';
+import { NotifierPort } from '../../core/application/ports/output/notifier.port';
 import nodemailer from 'nodemailer';
+import { User } from '../../core/domain/user.model';
+import { registrationTemplate } from './templates/registration.template';
 
 export const emailNotifier = (): NotifierPort => {
   const notify = async (user: User, message: string): Promise<void> => {
@@ -17,7 +18,7 @@ export const emailNotifier = (): NotifierPort => {
       from: process.env.EMAIL_NODEMAILER,
       to: user.email,
       subject: `Message From A-Team-Project`,
-      text: `${message} ${user.firstName}`,
+      html: registrationTemplate(user, message),
     };
 
     transporter.verify((error) => {

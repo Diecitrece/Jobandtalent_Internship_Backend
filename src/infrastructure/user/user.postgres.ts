@@ -1,10 +1,14 @@
 import knex from 'knex';
+import { UserRepository } from '../../core/application/ports/output/repository.port';
+import { User } from '../../core/domain/user.model';
 import configs from '../shared/database/knexfile';
-import { Respository } from '@core/application/ports/output/repository.port';
-import { User } from '@core/domain/user.model';
 
-const db = knex(configs.development);
-export const userRepositoryPostgres = (): Respository<User> => {
+const db =
+  process.env.NODE_ENV === 'test'
+    ? knex(configs.test)
+    : knex(configs.development);
+
+export const userRepositoryPostgres = (): UserRepository => {
   const getAll = async (): Promise<User[]> => {
     const users = await db('users').select('*');
     return users as User[];
@@ -15,7 +19,7 @@ export const userRepositoryPostgres = (): Respository<User> => {
     if (userExist.length > 0) {
       return undefined;
     }
-    const userCreated: User = await db('users').insert(user, ['*']);
+    const userCreated: User = (await db('users').insert(user, ['*']))[0];
     return userCreated;
   };
 
