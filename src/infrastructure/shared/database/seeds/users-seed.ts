@@ -3,7 +3,7 @@ import { v4 } from 'uuid';
 import { faker } from '@faker-js/faker';
 import PromptSync from 'prompt-sync';
 import { passwordCrypt } from '../../password_crypt';
-import { User } from '@core/domain/user.model';
+import { User, UserRoles } from '@core/domain/user.model';
 
 const generateId = () => v4();
 function promptUserNumber(): number {
@@ -36,7 +36,7 @@ export async function seed(knex: Knex): Promise<void> {
       ),
       phone: faker.phone.phoneNumber(),
       address: faker.address.streetAddress(),
-      role: 'USER',
+      role: [UserRoles.USER, UserRoles.ADMIN][Math.floor(Math.random() * 2)],
     };
     await knex('users').insert(user);
     await generateUser(userNumber - 1);

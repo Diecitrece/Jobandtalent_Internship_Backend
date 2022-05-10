@@ -1,4 +1,4 @@
-import { User } from '@core/domain/user.model';
+import { User, UserRoles } from '@core/domain/user.model';
 
 export interface UserCreation {
   firstName: string;
@@ -7,7 +7,7 @@ export interface UserCreation {
   password: string;
   phone: string;
   address: string;
-  role: string;
+  role: UserRoles;
 }
 export interface UserVerify {
   email: string;
