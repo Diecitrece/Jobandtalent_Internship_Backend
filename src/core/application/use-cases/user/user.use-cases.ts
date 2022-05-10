@@ -5,48 +5,54 @@ import {
   UserVerify,
 } from "../../ports/input/userCRUD.port";
 
-import {
-  userRepositoryDep,
-  consoleNotifierDep,
-  generateIdDep,
-  emailNotifierDep,
-  passwordCryptDep,
-} from "../../../../infrastructure/shared/dependency_injection";
+import { dependenciesContainer } from "../../../../infrastructure/shared/dependency_injection";
+import { PasswordCrypt } from "../../ports/output/password_crypt.port";
+import { UserRepository } from "../../ports/output/repository.port";
+import { NotifierPort } from "../../ports/output/notifier.port";
 
 export const userCases = (): UserCRUD => {
+  const generateId: () => string = dependenciesContainer.cradle.generateId;
+  const passwordCrypt: () => PasswordCrypt =
+    dependenciesContainer.cradle.passwordCrypt;
+  const userRepository: () => UserRepository =
+    dependenciesContainer.cradle.userRepository;
+  const consoleNotifier: () => NotifierPort =
+    dependenciesContainer.cradle.consoleNotifier;
+  const emailNotifier: () => NotifierPort =
+    dependenciesContainer.cradle.emailNotifier;
   const create = async (data: UserCreation): Promise<User | undefined> => {
     const { firstName, surNames, email, password, phone, address } = data;
 
     const user: User = {
-      id: generateIdDep,
+      id: generateId(),
       firstName: firstName,
       surNames: surNames,
       email: email,
-      password: await passwordCryptDep.password_crypt(password),
+      password: await passwordCrypt().password_crypt(password),
       phone: phone,
       address: address,
     };
-    const newUser = await userRepositoryDep.create(user);
+    const newUser = await userRepository().create(user);
     if (newUser) {
-      consoleNotifierDep.notify(user, "Hello");
-      emailNotifierDep.notify(user, "Welcome to Jobandtalent!");
+      consoleNotifier().notify(user, "Hello");
+      emailNotifier().notify(user, "Welcome to Jobandtalent!");
     }
     return newUser;
   };
   const getAll = async (): Promise<User[]> => {
-    return userRepositoryDep.getAll();
+    return userRepository().getAll();
   };
 
   const getOne = async (id: string): Promise<User | undefined> => {
-    return userRepositoryDep.getOne(id);
+    return userRepository().getOne(id);
   };
 
   const login = async (item: UserVerify): Promise<User | undefined> => {
-    const gotUser = await userRepositoryDep.getOneByEmail(item.email);
+    const gotUser = await userRepository().getOneByEmail(item.email);
     if (!gotUser) {
       return undefined;
     }
-    const passwordVerify = await passwordCryptDep.password_compare(
+    const passwordVerify = await passwordCrypt().password_compare(
       item.password,
       gotUser.password
     );

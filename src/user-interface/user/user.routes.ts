@@ -2,19 +2,21 @@ import { Request, Response, Router } from "express";
 import { schemaUserLogin, schemaUserRegister } from "./validate-body";
 import {
   UserCreation,
+  UserCRUD,
   UserVerify,
 } from "../../core/application/ports/input/userCRUD.port";
 import bodyParser from "body-parser";
 import { tokenManager } from "../../infrastructure/user/jwt/manageToken";
 import { authenticateToken } from "./middlewares/authenticateToken";
-import { userCasesDep } from "../../infrastructure/shared/dependency_injection";
+import { dependenciesContainer } from "../../infrastructure/shared/dependency_injection";
+const userCases: UserCRUD = dependenciesContainer.cradle.userCases();
 export const userRouter = Router();
 userRouter.use(bodyParser.json());
 userRouter.get(
   "/api/users",
   authenticateToken,
   async (req: Request, res: Response): Promise<void> => {
-    const users = await userCasesDep.getAll();
+    const users = await userCases.getAll();
     res.status(200).json(users);
     return;
   }
@@ -28,7 +30,7 @@ userRouter.get(
       return;
     }
     const id: string = req.params.id;
-    const user = await userCasesDep.getOne(id);
+    const user = await userCases.getOne(id);
     if (user) {
       res.status(200).json(user);
       return;
@@ -46,7 +48,7 @@ userRouter.post(
       return;
     }
     const body: UserCreation = req.body;
-    const newUser = await userCasesDep.create(body);
+    const newUser = await userCases.create(body);
     if (newUser) {
       res.status(201).json(newUser);
       return;
@@ -65,7 +67,7 @@ userRouter.post(
       return;
     }
     const body: UserVerify = req.body;
-    const exists = await userCasesDep.login(body);
+    const exists = await userCases.login(body);
     if (exists) {
       const token = await tokenManager().accessToken(body);
       res.status(200).json({ accessToken: token });
