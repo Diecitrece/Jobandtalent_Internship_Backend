@@ -19,6 +19,7 @@ export interface ReturnUserFormat {
   email: string;
   phone: string;
   address: string;
+  role: string;
 }
 
 export const returnUserMapping = (user: User) => {
@@ -29,6 +30,7 @@ export const returnUserMapping = (user: User) => {
     email: user.email,
     phone: user.phone,
     address: user.address,
+    role: user.role,
   };
 };
 

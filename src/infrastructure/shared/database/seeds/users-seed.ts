@@ -36,6 +36,7 @@ export async function seed(knex: Knex): Promise<void> {
       ),
       phone: faker.phone.phoneNumber(),
       address: faker.address.streetAddress(),
+      role: 'USER',
     };
     await knex('users').insert(user);
     await generateUser(userNumber - 1);
