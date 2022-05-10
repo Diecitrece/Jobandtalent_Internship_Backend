@@ -7,6 +7,7 @@ export interface UserCreation {
   password: string;
   phone: string;
   address: string;
+  role: string;
 }
 export interface UserVerify {
   email: string;

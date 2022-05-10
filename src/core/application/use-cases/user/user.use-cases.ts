@@ -21,7 +21,7 @@ export const userCases = (): UserCRUD => {
   const emailNotifier: () => NotifierPort =
     dependenciesContainer.cradle.emailNotifier;
   const create = async (data: UserCreation): Promise<User | undefined> => {
-    const { firstName, surNames, email, password, phone, address } = data;
+    const { firstName, surNames, email, password, phone, address, role } = data;
 
     const user: User = {
       id: generateId(),
@@ -31,6 +31,7 @@ export const userCases = (): UserCRUD => {
       password: await passwordCrypt().password_crypt(password),
       phone: phone,
       address: address,
+      role: role,
     };
     const newUser = await userRepository().create(user);
     if (newUser) {
