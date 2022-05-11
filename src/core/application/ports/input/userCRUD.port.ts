@@ -1,13 +1,7 @@
 import { User } from '@core/domain/user.model';
 
-export interface UserCreation {
-  firstName: string;
-  surNames: string;
-  email: string;
-  password: string;
-  phone: string;
-  address: string;
-}
+export type UserCreation = Omit<User, 'id'>;
+
 export interface UserVerify {
   email: string;
   password: string;
