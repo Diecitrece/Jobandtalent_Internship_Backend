@@ -25,13 +25,13 @@ export const userCases = (): UserCRUD => {
 
     const user: User = {
       id: generateId(),
-      firstName: firstName,
-      surNames: surNames,
-      email: email,
+      firstName,
+      surNames,
+      email,
       password: await passwordCrypt().password_crypt(password),
-      phone: phone,
-      address: address,
-      role: role,
+      phone,
+      address,
+      role,
     };
     const newUser = await userRepository().create(user);
     if (newUser) {
