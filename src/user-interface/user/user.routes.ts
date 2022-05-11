@@ -1,15 +1,15 @@
-import { Request, Response, Router } from 'express';
-import { User } from '../../core/domain/user.model';
-import { schemaUserLogin, schemaUserRegister } from './validate-body';
+import { Request, Response, Router } from "express";
+import { User } from "../../core/domain/user.model";
+import { schemaUserLogin, schemaUserRegister } from "./validate-body";
 import {
   UserCreation,
   UserCRUD,
   UserVerify,
-} from '../../core/application/ports/input/userCRUD.port';
-import bodyParser from 'body-parser';
-import { tokenManager } from '../../infrastructure/user/jwt/manageToken';
-import { authenticateToken } from './middlewares/authenticateToken';
-import { dependenciesContainer } from '../../infrastructure/shared/dependency_injection';
+} from "../../core/application/ports/input/userCRUD.port";
+import bodyParser from "body-parser";
+import { tokenManager } from "../../infrastructure/user/jwt/manageToken";
+import { dependenciesContainer } from "../../infrastructure/shared/dependency_injection";
+import { authenticateToken } from "../middlewares/authenticateToken";
 const userCases: UserCRUD = dependenciesContainer.cradle.userCases();
 
 export interface ReturnUserFormat {
@@ -35,7 +35,7 @@ export const returnUserMapping = (user: User) => {
 export const userRouter = Router();
 userRouter.use(bodyParser.json());
 userRouter.get(
-  '/api/users',
+  "/api/users",
   authenticateToken,
   async (req: Request, res: Response): Promise<void> => {
     const users = await userCases.getAll();
@@ -48,11 +48,11 @@ userRouter.get(
   }
 );
 userRouter.get(
-  '/api/users/:id',
+  "/api/users/:id",
   authenticateToken,
   async (req: Request, res: Response): Promise<void> => {
-    if (typeof req.params.id !== 'string') {
-      res.status(400).send('Invalid ID');
+    if (typeof req.params.id !== "string") {
+      res.status(400).send("Invalid ID");
       return;
     }
     const id: string = req.params.id;
@@ -61,12 +61,12 @@ userRouter.get(
       res.status(200).json(returnUserMapping(user));
       return;
     }
-    res.status(404).send('User not found');
+    res.status(404).send("User not found");
     return;
   }
 );
 userRouter.post(
-  '/api/users',
+  "/api/users",
   async (req: Request, res: Response): Promise<void> => {
     const validation = schemaUserRegister.validate(req.body);
     if (validation.error) {
@@ -79,13 +79,13 @@ userRouter.post(
       res.status(201).json(returnUserMapping(newUser));
       return;
     }
-    res.status(400).send('User already exists');
+    res.status(400).send("User already exists");
     return;
   }
 );
 
 userRouter.post(
-  '/api/users/login',
+  "/api/users/login",
   async (req: Request, res: Response): Promise<void> => {
     const validation = schemaUserLogin.validate(req.body);
     if (validation.error) {
@@ -99,7 +99,7 @@ userRouter.post(
       res.status(200).json({ accessToken: token });
       return;
     }
-    res.status(400).send('Invalid email or password');
+    res.status(400).send("Invalid email or password");
     return;
   }
 );

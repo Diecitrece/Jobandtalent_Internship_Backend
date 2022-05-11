@@ -3,5 +3,6 @@ export interface Company {
   name: string;
   address: string;
   phone: string;
-  employees: string;
+  low_range_employees: number;
+  high_range_employees: number;
 }
