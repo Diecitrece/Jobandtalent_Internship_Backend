@@ -1,4 +1,4 @@
-import { User, UserRoles } from '../core/domain/user.model';
+import { User, UserRole } from '../core/domain/user.model';
 
 export const users: User[] = [
   {
@@ -9,7 +9,7 @@ export const users: User[] = [
     password: '123456',
     phone: '123456789',
     address: 'Calle falsa 123',
-    role: UserRoles.USER,
+    role: UserRole.USER,
   },
   {
     id: '2',
@@ -19,7 +19,7 @@ export const users: User[] = [
     password: '11223344',
     phone: '123456789',
     address: 'Calle falsa 123',
-    role: UserRoles.USER,
+    role: UserRole.USER,
   },
   {
     id: '3',
@@ -29,7 +29,7 @@ export const users: User[] = [
     password: '111222333',
     phone: '123456789',
     address: 'Calle falsa 123',
-    role: UserRoles.USER,
+    role: UserRole.USER,
   },
   {
     id: '4',
@@ -39,7 +39,7 @@ export const users: User[] = [
     password: '222333444',
     phone: '123456789',
     address: 'Calle falsa 123',
-    role: UserRoles.USER,
+    role: UserRole.USER,
   },
   {
     id: '5',
@@ -49,6 +49,6 @@ export const users: User[] = [
     password: '999888777',
     phone: '123456789',
     address: 'Calle falsa 123',
-    role: UserRoles.ADMIN,
+    role: UserRole.ADMIN,
   },
 ];

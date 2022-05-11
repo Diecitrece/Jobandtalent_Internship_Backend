@@ -1,4 +1,4 @@
-export enum UserRoles {
+export enum UserRole {
   ADMIN = 'ADMIN',
   USER = 'USER',
 }
@@ -11,5 +11,5 @@ export interface User {
   password: string;
   phone: string;
   address: string;
-  role: UserRoles;
+  role: UserRole;
 }

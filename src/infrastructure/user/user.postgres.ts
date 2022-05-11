@@ -1,6 +1,6 @@
 import knex from 'knex';
 import { UserRepository } from '../../core/application/ports/output/repository.port';
-import { User, UserRoles } from '../../core/domain/user.model';
+import { User, UserRole } from '../../core/domain/user.model';
 import configs from '../shared/database/knexfile';
 
 const db =
@@ -28,7 +28,7 @@ export const userRepositoryPostgres = (): UserRepository => {
       password,
       phone,
       address,
-      role: UserRoles.USER,
+      role: UserRole.USER,
     };
 
     const newUser: User = (await db('users').insert(userCreated, ['*']))[0];
