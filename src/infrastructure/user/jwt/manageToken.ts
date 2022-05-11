@@ -1,5 +1,5 @@
-import { UserVerify } from "@core/application/ports/input/userCRUD.port";
-import { TokenPort } from "@core/application/ports/output/token.port";
+import { UserVerify } from "../../../core/application/ports/input/userCRUD.port";
+import { TokenPort } from "../../../core/application/ports/output/token.port";
 import jwt, { Secret } from "jsonwebtoken";
 
 const secretKey = process.env.JWT_SECRET_KEY;

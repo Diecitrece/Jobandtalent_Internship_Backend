@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express";
 import { User } from "../../core/domain/user.model";
-import { schemaUserLogin, schemaUserRegister } from "./validate-body";
+import { schemaUserLogin, schemaUserRegister } from "./validate-body.user";
 import {
   UserCreation,
   UserCRUD,
