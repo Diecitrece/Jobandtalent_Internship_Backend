@@ -1,5 +1,5 @@
 import { User, UserRoles } from '../../core/domain/user.model';
-import { ReturnUserFormat, returnUserMapping } from './user.routes';
+import { getUserWithOutSensitiveInfo } from './user.routes';
 describe('user.routes functions', () => {
   test('Pass a user to this function, and then it returns it without password', () => {
     const user: User = {
@@ -12,16 +12,8 @@ describe('user.routes functions', () => {
       address: 'calledelapanceta puerta 1 1ºC',
       role: UserRoles.USER,
     };
-    const result = returnUserMapping(user);
-    const expected: ReturnUserFormat = {
-      id: user.id,
-      firstName: user.firstName,
-      surNames: user.surNames,
-      email: user.email,
-      phone: user.phone,
-      address: user.address,
-      role: user.role,
-    };
+    const result = getUserWithOutSensitiveInfo(user);
+    const { password, ...expected } = user; // eslint-disable-line
     expect(result).toStrictEqual(expected);
   });
 });
