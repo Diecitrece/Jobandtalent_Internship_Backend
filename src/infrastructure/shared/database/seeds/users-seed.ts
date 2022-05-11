@@ -4,6 +4,9 @@ import { faker } from '@faker-js/faker';
 import PromptSync from 'prompt-sync';
 import { passwordCrypt } from '../../password_crypt';
 import { User, UserRoles } from '@core/domain/user.model';
+import Chance from 'chance';
+
+const chance = new Chance();
 
 const generateId = () => v4();
 function promptUserNumber(): number {
@@ -36,7 +39,7 @@ export async function seed(knex: Knex): Promise<void> {
       ),
       phone: faker.phone.phoneNumber(),
       address: faker.address.streetAddress(),
-      role: [UserRoles.USER, UserRoles.ADMIN][Math.floor(Math.random() * 2)],
+      role: chance.pickone(Object.values(UserRoles)),
     };
     await knex('users').insert(user);
     await generateUser(userNumber - 1);
