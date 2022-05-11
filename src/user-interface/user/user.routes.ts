@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express';
-import { User, UserRoles } from '../../core/domain/user.model';
+import { User } from '../../core/domain/user.model';
 import { schemaUserLogin, schemaUserRegister } from './validate-body';
 import {
   UserCreation,

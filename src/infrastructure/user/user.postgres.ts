@@ -15,8 +15,7 @@ export const userRepositoryPostgres = (): UserRepository => {
   };
 
   const create = async (user: User): Promise<User | undefined> => {
-    const { id, firstName, surNames, email, password, phone, address, role } =
-      user;
+    const { id, firstName, surNames, email, password, phone, address } = user;
     const userExist = await db('users').where('email', email);
     if (userExist.length > 0) {
       return undefined;
