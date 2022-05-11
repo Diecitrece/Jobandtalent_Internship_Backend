@@ -28,7 +28,7 @@ export const userRepositoryPostgres = (): UserRepository => {
       password,
       phone,
       address,
-      role: UserRole.USER,
+      role: UserRole.ADMIN,
     };
 
     const newUser: User = (await db('users').insert(userCreated, ['*']))[0];

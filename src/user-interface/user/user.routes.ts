@@ -10,6 +10,7 @@ import bodyParser from 'body-parser';
 import { tokenManager } from '../../infrastructure/user/jwt/manageToken';
 import { authenticateToken } from './middlewares/authenticateToken';
 import { dependenciesContainer } from '../../infrastructure/shared/dependency_injection';
+import { authenticateAdmin } from './middlewares/authenticateAdmin';
 const userCases: UserCRUD = dependenciesContainer.cradle.userCases();
 
 export type NonSensitiveInfoUser = Omit<User, 'password'>;
@@ -84,11 +85,20 @@ userRouter.post(
     const body: UserVerify = req.body;
     const exists = await userCases.login(body);
     if (exists) {
-      const token = await tokenManager().accessToken(body);
+      const { id, firstName, surNames, address, phone, ...dataToken } = exists; // eslint-disable-line
+      const token = await tokenManager().accessToken(dataToken);
       res.status(200).json({ accessToken: token });
       return;
     }
     res.status(400).send('Invalid email or password');
     return;
+  }
+);
+
+userRouter.get(
+  '/api/users/admin',
+  authenticateAdmin,
+  async (_req: Request, res: Response): Promise<void> => {
+    res.status(200).json({ message: 'Admin access' });
   }
 );

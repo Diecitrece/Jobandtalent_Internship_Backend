@@ -1,6 +1,7 @@
 import { UserVerify } from '@core/application/ports/input/userCRUD.port';
 import { TokenPort } from '@core/application/ports/output/token.port';
 import jwt, { Secret } from 'jsonwebtoken';
+import { UserRole } from '../../../core/domain/user.model';
 
 const secretKey = process.env.JWT_SECRET_KEY;
 export const tokenManager = (): TokenPort => {
@@ -15,5 +16,14 @@ export const tokenManager = (): TokenPort => {
       return false;
     }
   };
-  return { accessToken, verifyToken };
+  const verifyAdminToken = async (token: string): Promise<boolean> => {
+    const decoded = jwt.decode(token);
+    console.log(decoded);
+
+    const data = decoded as UserVerify;
+    console.log(data);
+
+    return data && data.role === UserRole.ADMIN ? true : false;
+  };
+  return { accessToken, verifyToken, verifyAdminToken };
 };
