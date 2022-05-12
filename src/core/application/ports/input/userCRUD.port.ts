@@ -1,4 +1,4 @@
-import { User } from '../../../domain/user.model';
+import { User } from '@domain/user.model';
 import { CRUD } from './CRUD.port';
 export type UserCreation = Omit<User, 'id'>;
 

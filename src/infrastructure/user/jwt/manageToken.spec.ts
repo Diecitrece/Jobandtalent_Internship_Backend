@@ -1,4 +1,4 @@
-import { UserVerify } from '../../../core/application/ports/input/userCRUD.port';
+import { UserVerify } from '@ports/input/userCRUD.port';
 import { tokenManager } from './manageToken';
 
 //mock the tokenManager

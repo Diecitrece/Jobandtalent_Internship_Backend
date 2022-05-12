@@ -1,4 +1,4 @@
-import { User, UserRole } from '../../core/domain/user.model';
+import { User, UserRole } from '@core/domain/user.model';
 import { getUserWithOutSensitiveInfo } from './user.routes';
 describe('user.routes functions', () => {
   test('Pass a user to this function, and then it returns it without password', () => {

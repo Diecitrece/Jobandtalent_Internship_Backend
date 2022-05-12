@@ -1,5 +1,5 @@
-import { User } from '../../../domain/user.model';
-import { Company } from '../../../domain/company.model';
+import { User } from '@domain/user.model';
+import { Company } from '@domain/company.model';
 export interface Repository<Type> {
   create: (arg: Type) => Promise<Type | undefined>;
   getAll: () => Promise<Type[]>;

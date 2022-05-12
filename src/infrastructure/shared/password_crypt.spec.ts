@@ -1,4 +1,4 @@
-import { passwordCrypt } from '../../infrastructure/shared/password_crypt';
+import { passwordCrypt } from '@infrastructure/shared/password_crypt';
 
 describe('passwordCrypt', () => {
   const { password_crypt, password_compare } = passwordCrypt();

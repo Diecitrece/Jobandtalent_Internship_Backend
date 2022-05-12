@@ -1,6 +1,6 @@
 import knex from 'knex';
-import { UserRepository } from '../../core/application/ports/output/repository.port';
-import { User, UserRole } from '../../core/domain/user.model';
+import { UserRepository } from '@ports/output/repository.port';
+import { User, UserRole } from '@domain/user.model';
 import configs from '../shared/database/knexfile';
 
 const db =
