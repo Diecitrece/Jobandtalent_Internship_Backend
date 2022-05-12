@@ -17,11 +17,11 @@ export const companyCases = (): CompanyCRUD => {
       data;
     const company: Company = {
       id: generateId(),
-      name: name,
-      address: address,
-      phone: phone,
-      low_range_employees: low_range_employees,
-      high_range_employees: high_range_employees,
+      name,
+      address,
+      phone,
+      low_range_employees,
+      high_range_employees,
     };
     const newCompany = await companyRepository().create(company);
     return newCompany;
