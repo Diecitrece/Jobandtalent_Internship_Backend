@@ -17,13 +17,15 @@ export const tokenManager = (): TokenPort => {
     }
   };
   const verifyAdminToken = async (token: string): Promise<boolean> => {
-    const decoded = jwt.decode(token);
-    console.log(decoded);
+    const verified = await verifyToken(token);
+    if (verified) {
+      const decoded = jwt.decode(token);
 
-    const data = decoded as UserVerify;
-    console.log(data);
+      const data = decoded as UserVerify;
 
-    return data && data.role === UserRole.ADMIN ? true : false;
+      return data && data.role === UserRole.ADMIN ? true : false;
+    }
+    return verified;
   };
   return { accessToken, verifyToken, verifyAdminToken };
 };

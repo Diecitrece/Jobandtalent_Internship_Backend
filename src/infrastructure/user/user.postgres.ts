@@ -28,7 +28,7 @@ export const userRepositoryPostgres = (): UserRepository => {
       password,
       phone,
       address,
-      role: UserRole.ADMIN,
+      role: UserRole.USER,
     };
 
     const newUser: User = (await db('users').insert(userCreated, ['*']))[0];
@@ -42,6 +42,7 @@ export const userRepositoryPostgres = (): UserRepository => {
       .first();
     return gotUser || undefined;
   };
+
   const getOneByEmail = async (email: string): Promise<User | undefined> => {
     const gotUser: User = await db('users')
       .select('*')

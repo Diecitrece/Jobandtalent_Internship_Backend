@@ -12,13 +12,11 @@ export const authenticateAdmin: RequestHandler = async (
     res.sendStatus(401);
     return;
   }
-  const verified = await tokenManager().verifyToken(token);
-  if (!verified) {
-    const verifiedAdmin = await tokenManager().verifyAdminToken(token);
-    if (!verifiedAdmin) {
-      res.sendStatus(403);
-      return;
-    }
+
+  const verifiedAdmin = await tokenManager().verifyAdminToken(token);
+  if (!verifiedAdmin) {
+    res.sendStatus(403);
+    return;
   }
   next();
 };
