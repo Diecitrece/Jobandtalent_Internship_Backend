@@ -1,6 +1,6 @@
-import { Company } from "@core/domain/company.model";
+import { Company } from '../../../domain/company.model';
 
-export type CompanyCreation = Omit<Company, "id">;
+export type CompanyCreation = Omit<Company, 'id'>;
 
 export interface CompanyCRUD {
   create: (item: CompanyCreation) => Promise<Company | undefined>;
