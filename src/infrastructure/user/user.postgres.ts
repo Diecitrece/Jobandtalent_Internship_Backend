@@ -42,6 +42,7 @@ export const userRepositoryPostgres = (): UserRepository => {
       .first();
     return gotUser || undefined;
   };
+
   const getOneByEmail = async (email: string): Promise<User | undefined> => {
     const gotUser: User = await db('users')
       .select('*')

@@ -84,7 +84,8 @@ userRouter.post(
     const body: UserVerify = req.body;
     const exists = await userCases.login(body);
     if (exists) {
-      const token = await tokenManager().accessToken(body);
+      const { id, firstName, surNames, address, phone, ...dataToken } = exists; // eslint-disable-line
+      const token = await tokenManager().accessToken(dataToken);
       res.status(200).json({ accessToken: token });
       return;
     }
