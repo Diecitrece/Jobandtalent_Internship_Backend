@@ -19,11 +19,9 @@ export const tokenManager = (): TokenPort => {
   const verifyAdminToken = async (token: string): Promise<boolean> => {
     const verified = await verifyToken(token);
     if (verified) {
-      const decoded = jwt.decode(token);
+      const decoded: UserVerify = jwt.decode(token) as UserVerify;
 
-      const data = decoded as UserVerify;
-
-      return data && data.role === UserRole.ADMIN ? true : false;
+      return decoded && decoded?.role === UserRole.ADMIN ? true : false;
     }
     return verified;
   };
