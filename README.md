@@ -69,11 +69,9 @@ Your output should be something like that:
 		"firstName": "someone",
 		"surNames": "onesurname",
 		"email": "example@gmail.com",
-		"password": "$2b$10$C5NviK3U2bcdzCyDwJ9zseUoq7vhoZQMocprinB/4OOJDnIxklwem",
 		"phone": "666111222",
 		"address": "Some address, 5",
-		"created_at": "2022-04-29T09:16:59.974Z",
-		"updated_at": "2022-04-29T09:16:59.974Z"
+		"role": "USER",
 	}
 ]
 ```
@@ -81,7 +79,7 @@ Your output should be something like that:
 ---
 
 Body to login user:
-http://ec2-52-59-191-81.eu-central-1.compute.amazonaws.com//api/users/login<br/>
+http://ec2-52-59-191-81.eu-central-1.compute.amazonaws.com/api/users/login<br/>
 Method: 'POST'
 
 ```
@@ -99,6 +97,6 @@ In your output, you can see a token:
   }
 ```
 
-With this token you can access to 'getAllUsers' and 'getOneUser' endpoints. The token will expire after 35 seconds.
+With this token you can access to 'getAllUsers' and 'getOneUser' endpoints. The token will expire after 15 minutes.
 
 ### Enjoy 😇
