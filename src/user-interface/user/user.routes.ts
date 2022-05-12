@@ -10,7 +10,6 @@ import bodyParser from 'body-parser';
 import { tokenManager } from '../../infrastructure/user/jwt/manageToken';
 import { authenticateToken } from './middlewares/authenticateToken';
 import { dependenciesContainer } from '../../infrastructure/shared/dependency_injection';
-import { authenticateAdmin } from './middlewares/authenticateAdmin';
 const userCases: UserCRUD = dependenciesContainer.cradle.userCases();
 
 export type NonSensitiveInfoUser = Omit<User, 'password'>;
