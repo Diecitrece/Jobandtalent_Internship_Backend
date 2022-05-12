@@ -1,13 +1,13 @@
-import { Company } from "../../../../core/domain/company.model";
+import { Company } from '../../../../core/domain/company.model';
 import {
   CompanyCreation,
   CompanyCRUD,
-} from "../../../../core/application/ports/input/companyCRUD.port";
-import { Repository } from "../../../../core/application/ports/output/repository.port";
-import { dependenciesContainer } from "../../../../infrastructure/shared/dependency_injection";
+} from '../../../../core/application/ports/input/companyCRUD.port';
+import { CompanyRepository } from '../../../../core/application/ports/output/repository.port';
+import { dependenciesContainer } from '../../../../infrastructure/shared/dependency_injection';
 export const companyCases = (): CompanyCRUD => {
   const generateId: () => string = dependenciesContainer.cradle.generateId;
-  const companyRepository: () => Repository<Company> =
+  const companyRepository: () => CompanyRepository =
     dependenciesContainer.cradle.companyRepository;
 
   const create = async (

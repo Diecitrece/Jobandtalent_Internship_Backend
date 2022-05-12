@@ -6,7 +6,7 @@ import { emailNotifier } from "../notifier/email.notifier";
 import { passwordCrypt } from "../shared/password_crypt";
 import { companyCases } from "../../core/application/use-cases/company/company.use-cases";
 import { userCases } from "../../core/application/use-cases/user/user.use-cases";
-import { companyRepositoryPostgres } from "../../infrastructure/user/company.postgres";
+import { companyRepositoryPostgres } from "../company/company.postgres";
 
 export const dependenciesContainer = createContainer();
 
