@@ -1,4 +1,4 @@
-import { tokenManager } from '../../../infrastructure/user/jwt/manageToken';
+import { tokenManager } from '@infrastructure/user/jwt/manageToken';
 import { NextFunction, Request, Response, RequestHandler } from 'express';
 
 export const authenticateToken: RequestHandler = async (

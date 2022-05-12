@@ -1,4 +1,3 @@
-import { userRepositoryPostgres } from './user.postgres';
 import { users } from '../../__mocks__/db-mocks';
 
 const db = {

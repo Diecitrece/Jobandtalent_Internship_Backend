@@ -1,15 +1,11 @@
 import { Request, Response, Router } from 'express';
-import { User } from '../../core/domain/user.model';
-import { schemaUserLogin, schemaUserRegister } from './validate-body';
-import {
-  UserCreation,
-  UserCRUD,
-  UserVerify,
-} from '../../core/application/ports/input/userCRUD.port';
+import { User } from '@domain/user.model';
+import { schemaUserLogin, schemaUserRegister } from './validate-body.user';
+import { UserCreation, UserCRUD, UserVerify } from '@ports/input/userCRUD.port';
 import bodyParser from 'body-parser';
-import { tokenManager } from '../../infrastructure/user/jwt/manageToken';
-import { authenticateToken } from './middlewares/authenticateToken';
-import { dependenciesContainer } from '../../infrastructure/shared/dependency_injection';
+import { tokenManager } from '@infrastructure/user/jwt/manageToken';
+import { dependenciesContainer } from '@shared/dependency_injection';
+import { authenticateToken } from '../middlewares/authenticateToken';
 const userCases: UserCRUD = dependenciesContainer.cradle.userCases();
 
 export type NonSensitiveInfoUser = Omit<User, 'password'>;

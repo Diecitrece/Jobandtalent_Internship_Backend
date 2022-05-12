@@ -1,4 +1,4 @@
-import { PasswordCrypt } from '@core/application/ports/output/password_crypt.port';
+import { PasswordCrypt } from '@ports/output/password_crypt.port';
 import bcrypt from 'bcrypt';
 
 export const passwordCrypt = (): PasswordCrypt => {

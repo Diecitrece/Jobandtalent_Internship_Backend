@@ -1,5 +1,5 @@
-import { NotifierPort } from '@core/application/ports/output/notifier.port';
-import { User } from '@core/domain/user.model';
+import { NotifierPort } from '@ports/output/notifier.port';
+import { User } from '@domain/user.model';
 
 export const consoleNotifier = (): NotifierPort => {
   const notify = async (user: User, message: string): Promise<void> => {

@@ -1,5 +1,5 @@
-import { UserVerify } from '@core/application/ports/input/userCRUD.port';
-import { TokenPort } from '@core/application/ports/output/token.port';
+import { UserVerify } from '@ports/input/userCRUD.port';
+import { TokenPort } from '@ports/output/token.port';
 import jwt, { Secret } from 'jsonwebtoken';
 import { UserRole } from '../../../core/domain/user.model';
 
