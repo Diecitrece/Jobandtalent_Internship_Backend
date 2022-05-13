@@ -1,6 +1,6 @@
-import { NotifierPort } from '../../core/application/ports/output/notifier.port';
+import { NotifierPort } from '@ports/output/notifier.port';
 import nodemailer from 'nodemailer';
-import { User } from '../../core/domain/user.model';
+import { User } from '@domain/user.model';
 import { registrationTemplate } from './templates/registration.template';
 
 export const emailNotifier = (): NotifierPort => {

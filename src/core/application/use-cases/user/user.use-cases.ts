@@ -1,14 +1,10 @@
-import { User } from '../../../domain/user.model';
-import {
-  UserCRUD,
-  UserCreation,
-  UserVerify,
-} from '../../ports/input/userCRUD.port';
+import { User } from '@domain/user.model';
+import { UserCRUD, UserCreation, UserVerify } from '@ports/input/userCRUD.port';
 
-import { dependenciesContainer } from '../../../../infrastructure/shared/dependency_injection';
-import { PasswordCrypt } from '../../ports/output/password_crypt.port';
-import { UserRepository } from '../../ports/output/repository.port';
-import { NotifierPort } from '../../ports/output/notifier.port';
+import { dependenciesContainer } from '@shared/dependency_injection';
+import { PasswordCrypt } from '@ports/output/password_crypt.port';
+import { UserRepository } from '@ports/output/repository.port';
+import { NotifierPort } from '@ports/output/notifier.port';
 
 export const userCases = (): UserCRUD => {
   const generateId: () => string = dependenciesContainer.cradle.generateId;
@@ -21,16 +17,17 @@ export const userCases = (): UserCRUD => {
   const emailNotifier: () => NotifierPort =
     dependenciesContainer.cradle.emailNotifier;
   const create = async (data: UserCreation): Promise<User | undefined> => {
-    const { firstName, surNames, email, password, phone, address } = data;
+    const { firstName, surNames, email, password, phone, address, role } = data;
 
     const user: User = {
       id: generateId(),
-      firstName: firstName,
-      surNames: surNames,
-      email: email,
+      firstName,
+      surNames,
+      email,
       password: await passwordCrypt().password_crypt(password),
-      phone: phone,
-      address: address,
+      phone,
+      address,
+      role,
     };
     const newUser = await userRepository().create(user);
     if (newUser) {

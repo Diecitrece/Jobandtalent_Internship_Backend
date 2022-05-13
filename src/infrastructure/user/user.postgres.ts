@@ -1,6 +1,6 @@
 import knex from 'knex';
-import { UserRepository } from '../../core/application/ports/output/repository.port';
-import { User } from '../../core/domain/user.model';
+import { UserRepository } from '@ports/output/repository.port';
+import { User, UserRole } from '@domain/user.model';
 import configs from '../shared/database/knexfile';
 
 const db =
@@ -15,12 +15,24 @@ export const userRepositoryPostgres = (): UserRepository => {
   };
 
   const create = async (user: User): Promise<User | undefined> => {
-    const userExist = await db('users').where('email', user.email);
+    const { id, firstName, surNames, email, password, phone, address } = user;
+    const userExist = await db('users').where('email', email);
     if (userExist.length > 0) {
       return undefined;
     }
-    const userCreated: User = (await db('users').insert(user, ['*']))[0];
-    return userCreated;
+    const userCreated: User = {
+      id,
+      firstName,
+      surNames,
+      email,
+      password,
+      phone,
+      address,
+      role: UserRole.USER,
+    };
+
+    const newUser: User = (await db('users').insert(userCreated, ['*']))[0];
+    return newUser;
   };
 
   const getOne = async (id: string): Promise<User | undefined> => {
@@ -30,6 +42,7 @@ export const userRepositoryPostgres = (): UserRepository => {
       .first();
     return gotUser || undefined;
   };
+
   const getOneByEmail = async (email: string): Promise<User | undefined> => {
     const gotUser: User = await db('users')
       .select('*')

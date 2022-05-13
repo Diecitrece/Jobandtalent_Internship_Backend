@@ -1,3 +1,8 @@
+export enum UserRole {
+  ADMIN = 'ADMIN',
+  USER = 'USER',
+}
+
 export interface User {
   id: string;
   firstName: string;
@@ -6,4 +11,5 @@ export interface User {
   password: string;
   phone: string;
   address: string;
+  role: UserRole;
 }

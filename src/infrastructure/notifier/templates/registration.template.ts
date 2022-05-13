@@ -1,4 +1,4 @@
-import { User } from '../../../core/domain/user.model';
+import { User } from '@domain/user.model';
 
 export const registrationTemplate = (user: User, message: string): string => {
   return `

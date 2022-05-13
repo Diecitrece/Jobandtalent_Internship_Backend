@@ -1,20 +1,12 @@
-import { User } from '@core/domain/user.model';
+import { User, UserRole } from '@domain/user.model';
+import { CRUD } from './CRUD.port';
+export type UserCreation = Omit<User, 'id'>;
 
-export interface UserCreation {
-  firstName: string;
-  surNames: string;
-  email: string;
-  password: string;
-  phone: string;
-  address: string;
-}
 export interface UserVerify {
   email: string;
   password: string;
+  role: UserRole;
 }
-export interface UserCRUD {
-  create: (item: UserCreation) => Promise<User | undefined>;
-  getAll: () => Promise<User[]>;
-  getOne: (id: string) => Promise<User | undefined>;
+export interface UserCRUD extends CRUD<User, UserCreation> {
   login: (item: UserVerify) => Promise<User | undefined>;
 }
