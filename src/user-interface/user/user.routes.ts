@@ -82,10 +82,22 @@ userRouter.post(
     if (exists) {
       const { id, firstName, surNames, address, phone, ...dataToken } = exists; // eslint-disable-line
       const token = await tokenManager().accessToken(dataToken);
-      res.status(200).json({ accessToken: token });
+      const refreshToken = await tokenManager().refreshToken(dataToken);
+      res.status(200).json({ accessToken: token, refreshToken });
       return;
     }
     res.status(400).send('Invalid email or password');
     return;
+  }
+);
+userRouter.post(
+  '/refreshToken',
+  async (req: Request, res: Response): Promise<void> => {
+    if (!req.body.refreshToken) {
+      res.status(400).send('refreshToken expected');
+      return;
+    }
+    
+    const refreshToken = req.body.refreshToken;
   }
 );
