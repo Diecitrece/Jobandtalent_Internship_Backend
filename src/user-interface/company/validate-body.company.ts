@@ -39,10 +39,18 @@ export const schemaCompanyCreate: ObjectSchema = Joi.object({
       'string.pattern.base':
         "The company's phone number can only contain numbers and the '+' character",
     }),
-  low_range_employees: Joi.number().integer().positive().messages({
+  low_range_employees: Joi.number().integer().positive().default(1).messages({
     'number.positive': 'The low range of employees can not be zero or lower.',
   }),
-  high_range_employees: Joi.number().integer().positive().messages({
-    'number.positive': 'The high range of employees can not be zero or lower.',
-  }),
+  high_range_employees: Joi.number()
+    .integer()
+    .positive()
+    .default(Joi.ref('low_range_employees'))
+    .min(Joi.ref('low_range_employees'))
+    .messages({
+      'number.min':
+        "The company's high range employees must be greater than the low range employees",
+      'number.positive':
+        'The high range of employees can not be zero or lower.',
+    }),
 });
