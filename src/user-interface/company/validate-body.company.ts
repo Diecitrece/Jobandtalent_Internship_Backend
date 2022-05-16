@@ -1,13 +1,14 @@
 import Joi, { ObjectSchema } from 'joi';
-
 export const schemaCompanyCreate: ObjectSchema = Joi.object({
   name: Joi.string()
     .min(3)
     .max(30)
     .trim()
     .strict()
+    .required()
     .pattern(new RegExp(/^[\w\-\sÀ-ÿ]+$/))
     .messages({
+      'any.required': "The company's name is required, try to use 'name'",
       'string.empty': "The company's name can not be empty",
       'string.min':
         "The company's name lenght must be at least 3 characters long",
@@ -38,7 +39,9 @@ export const schemaCompanyCreate: ObjectSchema = Joi.object({
       'string.pattern.base':
         "The company's phone number can only contain numbers and the '+' character",
     }),
-  low_range_employees: Joi.number().integer().positive().default(1),
+  low_range_employees: Joi.number().integer().positive().default(1).messages({
+    'number.positive': 'The low range of employees can not be zero or lower.',
+  }),
   high_range_employees: Joi.number()
     .integer()
     .positive()
@@ -47,5 +50,7 @@ export const schemaCompanyCreate: ObjectSchema = Joi.object({
     .messages({
       'number.min':
         "The company's high range employees must be greater than the low range employees",
+      'number.positive':
+        'The high range of employees can not be zero or lower.',
     }),
 });

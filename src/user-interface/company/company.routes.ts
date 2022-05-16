@@ -13,6 +13,7 @@ companyRouter.post(
   authenticateAdmin,
   async (req: Request, res: Response): Promise<void> => {
     const validation = schemaCompanyCreate.validate(req.body);
+    console.log(validation);
     if (validation.error) {
       res.status(400).send(validation.error?.details[0].message);
       return;
