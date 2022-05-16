@@ -5,7 +5,7 @@ import { UserCreation, UserCRUD, UserVerify } from '@ports/input/userCRUD.port';
 import bodyParser from 'body-parser';
 import { tokenManager } from '@infrastructure/user/jwt/manageToken';
 import { dependenciesContainer } from '@shared/dependency_injection';
-import { authenticateToken } from '../middlewares/authenticateToken';
+import { authenticateAdmin } from './middlewares/authenticateAdmin';
 const userCases: UserCRUD = dependenciesContainer.cradle.userCases();
 
 export type NonSensitiveInfoUser = Omit<User, 'password'>;
@@ -21,7 +21,7 @@ export const userRouter = Router();
 userRouter.use(bodyParser.json());
 userRouter.get(
   '/api/users',
-  authenticateToken,
+  authenticateAdmin,
   async (_req: Request, res: Response): Promise<void> => {
     const users = await userCases.getAll();
     const usersReturn: NonSensitiveInfoUser[] = [];
@@ -34,7 +34,7 @@ userRouter.get(
 );
 userRouter.get(
   '/api/users/:id',
-  authenticateToken,
+  authenticateAdmin,
   async (req: Request, res: Response): Promise<void> => {
     if (typeof req.params.id !== 'string') {
       res.status(400).send('Invalid ID');
