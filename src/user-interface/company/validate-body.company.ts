@@ -38,15 +38,13 @@ export const schemaCompanyCreate: ObjectSchema = Joi.object({
       'string.pattern.base':
         "The company's phone number can only contain numbers and the '+' character",
     }),
-  schema: Joi.object().keys({
-    low_range_employees: Joi.number().integer().positive(),
-    high_range_employees: Joi.number()
-      .integer()
-      .positive()
-      .greater(Joi.ref('low_range_employees'))
-      .messages({
-        'number.greater':
-          "The company's high range employees must be greater than the low range employees",
-      }),
-  }),
+  low_range_employees: Joi.number().integer().positive(),
+  high_range_employees: Joi.number()
+    .integer()
+    .positive()
+    .min(Joi.ref('low_range_employees'))
+    .messages({
+      'number.greater':
+        "The company's high range employees must be greater than the low range employees",
+    }),
 });
