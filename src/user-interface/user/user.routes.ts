@@ -83,6 +83,7 @@ userRouter.post(
       const { id, firstName, surNames, address, phone, ...dataToken } = exists; // eslint-disable-line
       const token = await tokenManager().accessToken(dataToken);
       const refreshToken = await tokenManager().refreshToken(dataToken);
+      
       res.status(200).json({ accessToken: token, refreshToken });
       return;
     }
@@ -97,7 +98,7 @@ userRouter.post(
       res.status(400).send('refreshToken expected');
       return;
     }
-    
     const refreshToken = req.body.refreshToken;
+    
   }
 );
