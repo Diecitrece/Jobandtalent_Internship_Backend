@@ -6,8 +6,10 @@ import bodyParser from 'body-parser';
 import { tokenManager } from '@infrastructure/user/jwt/manageToken';
 import { dependenciesContainer } from '@shared/dependency_injection';
 import { authenticateAdmin } from './middlewares/authenticateAdmin';
+import { RefreshTokenCRUD } from '@ports/input/refreshTokenCRUD.port';
 const userCases: UserCRUD = dependenciesContainer.cradle.userCases();
-
+const refreshTokenCases: RefreshTokenCRUD =
+  dependenciesContainer.cradle.refreshTokenCases();
 export type NonSensitiveInfoUser = Omit<User, 'password'>;
 
 export const getUserWithOutSensitiveInfo = (
@@ -22,13 +24,14 @@ userRouter.use(bodyParser.json());
 userRouter.get(
   '/api/users',
   authenticateAdmin,
-  async (_req: Request, res: Response): Promise<void> => {
+  async (req: Request, res: Response): Promise<void> => {
+    if (req.params.token) console.log(req.params);
     const users = await userCases.getAll();
     const usersReturn: NonSensitiveInfoUser[] = [];
     users.map((user) => {
       usersReturn.push(getUserWithOutSensitiveInfo(user));
     });
-    res.status(200).json(usersReturn);
+    res.status(200).json(usersReturn).send();
     return;
   }
 );
@@ -83,7 +86,6 @@ userRouter.post(
       const { id, firstName, surNames, address, phone, ...dataToken } = exists; // eslint-disable-line
       const token = await tokenManager().accessToken(dataToken);
       const refreshToken = await tokenManager().refreshToken(dataToken);
-      
       res.status(200).json({ accessToken: token, refreshToken });
       return;
     }
@@ -91,14 +93,22 @@ userRouter.post(
     return;
   }
 );
-userRouter.post(
-  '/refreshToken',
+userRouter.delete('/logout'),
   async (req: Request, res: Response): Promise<void> => {
-    if (!req.body.refreshToken) {
-      res.status(400).send('refreshToken expected');
-      return;
+    const { refreshToken } = req.body;
+    if (!refreshToken) {
+      res.status(400).send('Refresh token not provided');
     }
-    const refreshToken = req.body.refreshToken;
-    
-  }
-);
+    await refreshTokenCases.remove(refreshToken);
+    res.status(200);
+  };
+// userRouter.post(
+//   '/refreshToken',
+//   async (req: Request, res: Response): Promise<void> => {
+//     if (!req.body.refreshToken) {
+//       res.status(400).send('refreshToken expected');
+//       return;
+//     }
+//     const refreshToken = req.body.refreshToken;
+//   }
+// );

@@ -6,8 +6,8 @@ export const refreshTokenCases = (): RefreshTokenCRUD => {
   const refreshTokenRepository: () => RefreshTokenRepository =
     dependenciesContainer.cradle.refreshTokenRepository;
 
-  const save = async (idUser: string, token: string): Promise<void> => {
-    await refreshTokenRepository().save(idUser, token);
+  const save = async (token: string): Promise<void> => {
+    await refreshTokenRepository().save(token);
     return;
   };
   const verify = async (token: string): Promise<boolean> => {

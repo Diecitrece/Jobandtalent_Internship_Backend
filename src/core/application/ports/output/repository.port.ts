@@ -11,7 +11,7 @@ export interface UserRepository extends Repository<User> {
 export type CompanyRepository = Repository<Company>;
 
 export interface RefreshTokenRepository {
-  save: (idUser: string, token: string) => Promise<void>;
+  save: (token: string) => Promise<void>;
   verify: (token: string) => Promise<boolean>;
   remove: (token: string) => Promise<void>;
 }

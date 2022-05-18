@@ -7,15 +7,15 @@ const db =
     : knex(configs.development);
 
 export const refreshTokenRepositoryPostgres = (): RefreshTokenRepository => {
-  const save = async (idUser: string, token: string): Promise<void> => {
-    const tokenExists = await db('refreshTokens').where('idUser', idUser);
+  const save = async (token: string): Promise<void> => {
+    const tokenExists = await db('refreshTokens').where('refreshToken', token);
     if (tokenExists) {
       await db('refreshTokens')
-        .where('idUser', idUser)
+        .where('refreshToken', token)
         .update({ refreshToken: token });
       return;
     }
-    await db('refreshTokens').insert({ idUser, refreshToken: token });
+    await db('refreshTokens').insert({ refreshToken: token });
   };
   const verify = async (token: string): Promise<boolean> => {
     const tokenExists = await db('refreshTokens').where('refreshToken', token);
