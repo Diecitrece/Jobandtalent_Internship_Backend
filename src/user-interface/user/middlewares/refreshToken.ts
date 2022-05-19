@@ -1,8 +1,12 @@
 import { tokenManager } from '@infrastructure/user/jwt/manageToken';
 import { NextFunction, Request, Response, RequestHandler } from 'express';
 import { dependenciesContainer } from '@shared/dependency_injection';
-import { UserVerify } from '@ports/input/userCRUD.port';
-const refreshTokenCases = dependenciesContainer.cradle.refreshTokenCases;
+import { RefreshTokenCRUD } from '@ports/input/refreshTokenCRUD.port';
+import { UserCRUD } from '@ports/input/userCRUD.port';
+import { tokenPayload } from '@ports/output/token.port';
+const refreshTokenCases: RefreshTokenCRUD =
+  dependenciesContainer.cradle.refreshTokenCases();
+const userCases: UserCRUD = dependenciesContainer.cradle.userCases();
 export const refreshToken: RequestHandler = async (
   req: Request,
   res: Response,
@@ -17,11 +21,15 @@ export const refreshToken: RequestHandler = async (
   const verifiedExpiration = await tokenManager().verifyTokenNoExpiration(
     token
   );
-  //si verifiedExpiration me devuelve true, singifica que el token es válido, aunque esté expirado.
   const verifyToken = await tokenManager().verifyToken(token);
-  //si al verificarlo de forma normal con verifyAdminToken me da false, significa que hay que refrescar el accessToken
-  if (verifiedExpiration && !verifyToken) {
-    const { ogRefreshToken } = req.body;
+  if (verifiedExpiration == true && verifyToken == false) {
+    const ogRefreshToken = req.body.refreshToken;
+    if (!ogRefreshToken) {
+      res
+        .status(403)
+        .send('Access token expired, please provide your refreshToken');
+      return;
+    }
     const verifyRefreshToken = await tokenManager().verifyRefreshToken(
       ogRefreshToken
     );
@@ -31,10 +39,27 @@ export const refreshToken: RequestHandler = async (
         res.send('Log out');
         return;
       }
-      const newAccessToken = tokenManager().accessToken(payload);
+      const newAccessToken = await tokenManager().accessToken(payload);
+      await refreshTokenCases.remove(ogRefreshToken);
+      const newRefreshToken = await tokenManager().refreshToken(payload);
+      const userData = await userCases.getOne(payload.id);
+      if (userData) {
+        const { id } = userData;
+        await refreshTokenCases.save(id, newRefreshToken);
+        req.params.accessToken = newAccessToken;
+        //SET HEADERS
+        req.params.refreshToken = newRefreshToken;
+        console.log(req.params.refreshToken);
+        next();
+        return;
+      }
+      next();
+      return;
     }
     refreshTokenCases.remove(ogRefreshToken);
     res.send('Log out');
     return;
   }
+  next();
+  return;
 };

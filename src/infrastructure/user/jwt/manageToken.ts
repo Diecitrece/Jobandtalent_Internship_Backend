@@ -1,15 +1,14 @@
-import { UserVerify } from '@ports/input/userCRUD.port';
-import { TokenPort } from '@ports/output/token.port';
+import { tokenPayload, TokenPort } from '@ports/output/token.port';
 import jwt, { Secret, JwtPayload } from 'jsonwebtoken';
 import { UserRole } from '../../../core/domain/user.model';
 
 const secretKey = process.env.JWT_SECRET_KEY;
 const refreshSecretKey = process.env.JWT_REFRESH_SECRET_KET;
 export const tokenManager = (): TokenPort => {
-  const accessToken = async (item: UserVerify): Promise<string> => {
-    return jwt.sign(item, secretKey as Secret, { expiresIn: '15m' });
+  const accessToken = async (item: tokenPayload): Promise<string> => {
+    return jwt.sign(item, secretKey as Secret, { expiresIn: '20s' });
   };
-  const refreshToken = async (item: UserVerify): Promise<string> => {
+  const refreshToken = async (item: tokenPayload): Promise<string> => {
     return jwt.sign(item, refreshSecretKey as Secret, { expiresIn: '30d' });
   };
   const verifyToken = async (token: string): Promise<boolean> => {
@@ -23,7 +22,7 @@ export const tokenManager = (): TokenPort => {
   const verifyAdminToken = async (token: string): Promise<boolean> => {
     const verified = await verifyToken(token);
     if (verified) {
-      const decoded: UserVerify = jwt.decode(token) as UserVerify;
+      const decoded = jwt.decode(token) as JwtPayload;
 
       return decoded && decoded?.role === UserRole.ADMIN ? true : false;
     }
@@ -47,12 +46,19 @@ export const tokenManager = (): TokenPort => {
   };
   const decodeToken = async (
     token: string
-  ): Promise<UserVerify | undefined> => {
-    const decoded = jwt.decode(token);
+  ): Promise<tokenPayload | undefined> => {
+    const decoded = jwt.decode(token) as JwtPayload;
     if (!decoded) {
       return undefined;
     }
-    return decoded as UserVerify;
+    const { id, email, password, role } = decoded;
+    const payload: tokenPayload = {
+      id,
+      email,
+      password,
+      role,
+    };
+    return payload;
   };
   return {
     accessToken,

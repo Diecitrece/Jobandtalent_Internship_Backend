@@ -2,11 +2,13 @@ import { Request, Response, Router } from 'express';
 import { User } from '@domain/user.model';
 import { schemaUserLogin, schemaUserRegister } from './validate-body.user';
 import { UserCreation, UserCRUD, UserVerify } from '@ports/input/userCRUD.port';
+import { tokenPayload } from '@ports/output/token.port';
 import bodyParser from 'body-parser';
 import { tokenManager } from '@infrastructure/user/jwt/manageToken';
 import { dependenciesContainer } from '@shared/dependency_injection';
 import { authenticateAdmin } from './middlewares/authenticateAdmin';
 import { RefreshTokenCRUD } from '@ports/input/refreshTokenCRUD.port';
+import { refreshToken } from './middlewares/refreshToken';
 const userCases: UserCRUD = dependenciesContainer.cradle.userCases();
 const refreshTokenCases: RefreshTokenCRUD =
   dependenciesContainer.cradle.refreshTokenCases();
@@ -23,6 +25,7 @@ export const userRouter = Router();
 userRouter.use(bodyParser.json());
 userRouter.get(
   '/api/users',
+  refreshToken,
   authenticateAdmin,
   async (req: Request, res: Response): Promise<void> => {
     if (req.params.token) console.log(req.params);
@@ -83,9 +86,12 @@ userRouter.post(
     const body: UserVerify = req.body;
     const exists = await userCases.login(body);
     if (exists) {
-      const { id, firstName, surNames, address, phone, ...dataToken } = exists; // eslint-disable-line
-      const token = await tokenManager().accessToken(dataToken);
-      const refreshToken = await tokenManager().refreshToken(dataToken);
+      const { firstName, surNames, address, phone, ...dataToken } = exists; // eslint-disable-line
+      const token = await tokenManager().accessToken(dataToken as tokenPayload);
+      const refreshToken = await tokenManager().refreshToken(
+        dataToken as tokenPayload
+      );
+      await refreshTokenCases.save(dataToken.id, refreshToken);
       res.status(200).json({ accessToken: token, refreshToken });
       return;
     }
