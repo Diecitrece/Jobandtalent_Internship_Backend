@@ -34,7 +34,7 @@ userRouter.get(
     users.map((user) => {
       usersReturn.push(getUserWithOutSensitiveInfo(user));
     });
-    res.status(200).json(usersReturn).send();
+    res.status(200).json(usersReturn);
     return;
   }
 );

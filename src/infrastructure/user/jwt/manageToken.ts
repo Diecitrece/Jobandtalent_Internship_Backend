@@ -9,7 +9,7 @@ export const tokenManager = (): TokenPort => {
     return jwt.sign(item, secretKey as Secret, { expiresIn: '20s' });
   };
   const refreshToken = async (item: tokenPayload): Promise<string> => {
-    return jwt.sign(item, refreshSecretKey as Secret, { expiresIn: '30d' });
+    return jwt.sign(item, refreshSecretKey as Secret, { expiresIn: '24h' });
   };
   const verifyToken = async (token: string): Promise<boolean> => {
     try {

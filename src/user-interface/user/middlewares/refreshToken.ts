@@ -3,10 +3,10 @@ import { NextFunction, Request, Response, RequestHandler } from 'express';
 import { dependenciesContainer } from '@shared/dependency_injection';
 import { RefreshTokenCRUD } from '@ports/input/refreshTokenCRUD.port';
 import { UserCRUD } from '@ports/input/userCRUD.port';
-import { tokenPayload } from '@ports/output/token.port';
 const refreshTokenCases: RefreshTokenCRUD =
   dependenciesContainer.cradle.refreshTokenCases();
 const userCases: UserCRUD = dependenciesContainer.cradle.userCases();
+
 export const refreshToken: RequestHandler = async (
   req: Request,
   res: Response,
@@ -18,45 +18,46 @@ export const refreshToken: RequestHandler = async (
     res.sendStatus(401);
     return;
   }
-  const verifiedExpiration = await tokenManager().verifyTokenNoExpiration(
+  const verifiedNoExpiration = await tokenManager().verifyTokenNoExpiration(
     token
   );
-  const verifyToken = await tokenManager().verifyToken(token);
-  if (verifiedExpiration == true && verifyToken == false) {
-    const ogRefreshToken = req.body.refreshToken;
-    if (!ogRefreshToken) {
+  const verifyTokeWithExpiration = await tokenManager().verifyToken(token);
+  if (verifiedNoExpiration == true && verifyTokeWithExpiration == false) {
+    console.log(req.headers);
+    const refreshToken = req.headers['refresh_token'] as string | undefined;
+    if (!refreshToken) {
       res
         .status(403)
         .send('Access token expired, please provide your refreshToken');
       return;
     }
     const verifyRefreshToken = await tokenManager().verifyRefreshToken(
-      ogRefreshToken
+      refreshToken
     );
     if (verifyRefreshToken) {
-      const payload = await tokenManager().decodeToken(ogRefreshToken);
+      const payload = await tokenManager().decodeToken(refreshToken);
       if (!payload) {
         res.send('Log out');
         return;
       }
       const newAccessToken = await tokenManager().accessToken(payload);
-      await refreshTokenCases.remove(ogRefreshToken);
+      await refreshTokenCases.remove(refreshToken);
       const newRefreshToken = await tokenManager().refreshToken(payload);
       const userData = await userCases.getOne(payload.id);
       if (userData) {
         const { id } = userData;
         await refreshTokenCases.save(id, newRefreshToken);
-        req.params.accessToken = newAccessToken;
-        //SET HEADERS
-        req.params.refreshToken = newRefreshToken;
-        console.log(req.params.refreshToken);
-        next();
+        res.statusMessage = 'accessToken expired, new tokens provided';
+        res.status(201).json({
+          accessToken: newAccessToken,
+          refreshToken: newRefreshToken,
+        });
         return;
       }
       next();
       return;
     }
-    refreshTokenCases.remove(ogRefreshToken);
+    refreshTokenCases.remove(refreshToken);
     res.send('Log out');
     return;
   }
