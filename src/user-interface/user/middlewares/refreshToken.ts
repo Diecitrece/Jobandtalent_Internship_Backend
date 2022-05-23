@@ -23,7 +23,6 @@ export const refreshToken: RequestHandler = async (
   );
   const verifyTokeWithExpiration = await tokenManager().verifyToken(token);
   if (verifiedNoExpiration == true && verifyTokeWithExpiration == false) {
-    console.log(req.headers);
     const refreshToken = req.headers['refresh_token'] as string | undefined;
     if (!refreshToken) {
       res
@@ -31,13 +30,26 @@ export const refreshToken: RequestHandler = async (
         .send('Access token expired, please provide your refreshToken');
       return;
     }
-    const verifyRefreshToken = await tokenManager().verifyRefreshToken(
+    const verifyRefreshTokenOrigin = await tokenManager().verifyRefreshToken(
       refreshToken
     );
-    if (verifyRefreshToken) {
+
+    console.log(
+      '🚀 ~ file: refreshToken.ts ~ line 70 ~ refreshToken',
+      refreshToken
+    );
+    const verifyRefreshTokenRegistry = await refreshTokenCases.verify(
+      refreshToken
+    );
+    console.log(
+      '🚀 ~ file: refreshToken.ts ~ line 38 ~ verifyRefreshTokenRegistry',
+      verifyRefreshTokenRegistry
+    );
+
+    if (verifyRefreshTokenOrigin && verifyRefreshTokenRegistry) {
       const payload = await tokenManager().decodeToken(refreshToken);
       if (!payload) {
-        res.send('Log out');
+        res.status(404).send('Log out');
         return;
       }
       const newAccessToken = await tokenManager().accessToken(payload);
@@ -58,7 +70,7 @@ export const refreshToken: RequestHandler = async (
       return;
     }
     refreshTokenCases.remove(refreshToken);
-    res.send('Log out');
+    res.status(404).send('Log out');
     return;
   }
   next();

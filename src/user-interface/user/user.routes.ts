@@ -108,13 +108,3 @@ userRouter.delete('/logout'),
     await refreshTokenCases.remove(refreshToken);
     res.status(200);
   };
-// userRouter.post(
-//   '/refreshToken',
-//   async (req: Request, res: Response): Promise<void> => {
-//     if (!req.body.refreshToken) {
-//       res.status(400).send('refreshToken expected');
-//       return;
-//     }
-//     const refreshToken = req.body.refreshToken;
-//   }
-// );
