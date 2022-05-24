@@ -1,6 +1,6 @@
-import { UserVerify } from '@ports/input/userCRUD.port';
 import { tokenManager } from './manageToken';
 import { UserRole } from '../../../core/domain/user.model';
+import { tokenPayload } from '@ports/output/token.port';
 
 //mock the tokenManager
 jest.mock('./manageToken', () => ({
@@ -12,7 +12,8 @@ jest.mock('./manageToken', () => ({
 }));
 
 describe('tokenManager', () => {
-  const item: UserVerify = {
+  const item: tokenPayload = {
+    id: 'idDeEjemplo',
     email: 'example@example.com',
     password: '123456',
     role: UserRole.ADMIN,

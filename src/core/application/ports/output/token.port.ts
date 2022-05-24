@@ -1,7 +1,7 @@
 import { UserVerify } from '@ports/input/userCRUD.port';
 
 export interface tokenPayload extends UserVerify {
-  id: 'string';
+  id: string;
 }
 
 export interface TokenPort {
