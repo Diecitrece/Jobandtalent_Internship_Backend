@@ -3,14 +3,12 @@ import bodyParser from 'body-parser';
 import { schemaCompanyCreate } from './validate-body.company';
 import { CompanyCreation, CompanyCRUD } from '@ports/input/companyCRUD.port';
 import { dependenciesContainer } from '@shared/dependency_injection';
-import { authenticateAdmin } from '@user-interface/user/middlewares/authenticateAdmin';
 const companyCases: CompanyCRUD = dependenciesContainer.cradle.companyCases();
 
 export const companyRouter = Router();
 companyRouter.use(bodyParser.json());
 companyRouter.post(
-  '/api/companies/',
-  authenticateAdmin,
+  '/api/admin/companies/',
   async (req: Request, res: Response): Promise<void> => {
     const validation = schemaCompanyCreate.validate(req.body);
     console.log(validation);
@@ -29,8 +27,7 @@ companyRouter.post(
   }
 );
 companyRouter.get(
-  '/api/companies/',
-  authenticateAdmin,
+  '/api/admin/companies/',
   async (req: Request, res: Response): Promise<void> => {
     const companies = await companyCases.getAll();
     res.status(200).json(companies);
@@ -38,8 +35,7 @@ companyRouter.get(
   }
 );
 companyRouter.get(
-  '/api/companies/:id',
-  authenticateAdmin,
+  '/api/admin/companies/:id',
   async (req: Request, res: Response): Promise<void> => {
     if (typeof req.params.id !== 'string') {
       res.status(400).send('Invalid ID');

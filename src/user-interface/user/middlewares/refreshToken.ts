@@ -33,19 +33,9 @@ export const refreshToken: RequestHandler = async (
     const verifyRefreshTokenOrigin = await tokenManager().verifyRefreshToken(
       refreshToken
     );
-
-    console.log(
-      '🚀 ~ file: refreshToken.ts ~ line 70 ~ refreshToken',
-      refreshToken
-    );
     const verifyRefreshTokenRegistry = await refreshTokenCases.verify(
       refreshToken
     );
-    console.log(
-      '🚀 ~ file: refreshToken.ts ~ line 38 ~ verifyRefreshTokenRegistry',
-      verifyRefreshTokenRegistry
-    );
-
     if (verifyRefreshTokenOrigin && verifyRefreshTokenRegistry) {
       const payload = await tokenManager().decodeToken(refreshToken);
       if (!payload) {

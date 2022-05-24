@@ -6,9 +6,7 @@ import { tokenPayload } from '@ports/output/token.port';
 import bodyParser from 'body-parser';
 import { tokenManager } from '@infrastructure/user/jwt/manageToken';
 import { dependenciesContainer } from '@shared/dependency_injection';
-import { authenticateAdmin } from './middlewares/authenticateAdmin';
 import { RefreshTokenCRUD } from '@ports/input/refreshTokenCRUD.port';
-import { refreshToken } from './middlewares/refreshToken';
 const userCases: UserCRUD = dependenciesContainer.cradle.userCases();
 const refreshTokenCases: RefreshTokenCRUD =
   dependenciesContainer.cradle.refreshTokenCases();
@@ -24,9 +22,7 @@ export const getUserWithOutSensitiveInfo = (
 export const userRouter = Router();
 userRouter.use(bodyParser.json());
 userRouter.get(
-  '/api/users',
-  refreshToken,
-  authenticateAdmin,
+  '/api/admin/users',
   async (req: Request, res: Response): Promise<void> => {
     if (req.params.token) console.log(req.params);
     const users = await userCases.getAll();
@@ -39,8 +35,7 @@ userRouter.get(
   }
 );
 userRouter.get(
-  '/api/users/:id',
-  authenticateAdmin,
+  '/api/admin/users/:id',
   async (req: Request, res: Response): Promise<void> => {
     if (typeof req.params.id !== 'string') {
       res.status(400).send('Invalid ID');
@@ -99,7 +94,7 @@ userRouter.post(
     return;
   }
 );
-userRouter.delete('/logout'),
+userRouter.delete('/api/users/logout'),
   async (req: Request, res: Response): Promise<void> => {
     const { refreshToken } = req.body;
     if (!refreshToken) {

@@ -18,4 +18,5 @@ export const authenticateToken: RequestHandler = async (
     return;
   }
   next();
+  return;
 };
