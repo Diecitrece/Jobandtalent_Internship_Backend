@@ -6,7 +6,7 @@ const secretKey = process.env.JWT_SECRET_KEY;
 const refreshSecretKey = process.env.JWT_REFRESH_SECRET_KET;
 export const tokenManager = (): TokenPort => {
   const accessToken = async (item: tokenPayload): Promise<string> => {
-    return jwt.sign(item, secretKey as Secret, { expiresIn: '20s' });
+    return jwt.sign(item, secretKey as Secret, { expiresIn: '15m' });
   };
   const refreshToken = async (item: tokenPayload): Promise<string> => {
     return jwt.sign(item, refreshSecretKey as Secret, { expiresIn: '24h' });
