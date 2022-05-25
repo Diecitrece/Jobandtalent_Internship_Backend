@@ -26,6 +26,7 @@ const publicRoutes: string[] = [
   '/api/users/login',
   '/api/users/logout',
   '/api/users',
+  '/',
 ];
 
 app.use(routesFilter(publicRoutes, refreshToken));
