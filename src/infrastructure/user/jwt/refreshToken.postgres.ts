@@ -18,14 +18,9 @@ export const refreshTokenRepositoryPostgres = (): RefreshTokenRepository => {
     await db('refreshTokens').insert({ refreshToken: token, idUser });
   };
   const verify = async (token: string): Promise<boolean> => {
-    console.log(
-      '🚀 ~ file: refreshToken.postgres.ts ~ line 21 ~ verify ~ token',
-      token
-    );
     const tokenExists = await db('refreshTokens').where({
       refreshToken: token,
     });
-    console.log(tokenExists);
     if (tokenExists.length > 0) return true;
     return false;
   };

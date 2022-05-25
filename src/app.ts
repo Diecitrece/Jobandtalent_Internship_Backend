@@ -25,7 +25,7 @@ const routesFilter = (publicRoutes: string[], middleware: RequestHandler) => {
 const publicRoutes: string[] = [
   '/api/users/login',
   '/api/users/logout',
-  '/api//users',
+  '/api/users',
 ];
 
 app.use(routesFilter(publicRoutes, refreshToken));

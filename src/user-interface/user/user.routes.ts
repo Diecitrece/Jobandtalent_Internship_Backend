@@ -24,7 +24,6 @@ userRouter.use(bodyParser.json());
 userRouter.get(
   '/api/admin/users',
   async (req: Request, res: Response): Promise<void> => {
-    if (req.params.token) console.log(req.params);
     const users = await userCases.getAll();
     const usersReturn: NonSensitiveInfoUser[] = [];
     users.map((user) => {

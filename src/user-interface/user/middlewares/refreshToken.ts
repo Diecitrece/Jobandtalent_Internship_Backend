@@ -22,7 +22,7 @@ export const refreshToken: RequestHandler = async (
     token
   );
   const verifyTokeWithExpiration = await tokenManager().verifyToken(token);
-  if (verifiedNoExpiration == true && verifyTokeWithExpiration == false) {
+  if (verifiedNoExpiration === true && verifyTokeWithExpiration === false) {
     const refreshToken = req.headers['refresh_token'] as string | undefined;
     if (!refreshToken) {
       res
