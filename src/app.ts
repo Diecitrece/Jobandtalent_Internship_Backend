@@ -10,8 +10,10 @@ import { companyRouter } from './user-interface/company/company.routes';
 import { authenticateAdmin } from '@user-interface/user/middlewares/authenticateAdmin';
 import { authenticateToken } from '@user-interface/middlewares/authenticateToken';
 import { refreshToken } from '@user-interface/user/middlewares/refreshToken';
+import cors from 'cors';
 
 export const app = express();
+app.use(cors());
 
 const routesFilter = (publicRoutes: string[], middleware: RequestHandler) => {
   return (req: Request, res: Response, next: NextFunction) => {
