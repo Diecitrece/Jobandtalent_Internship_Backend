@@ -1,7 +1,7 @@
 import knex from 'knex';
 import { UserRepository } from '@ports/output/repository.port';
 import { User, UserRole } from '@domain/user.model';
-import configs from '../shared/database/knexfile';
+import configs from '@shared/database/knexfile';
 
 const db =
   process.env.NODE_ENV === 'test'
