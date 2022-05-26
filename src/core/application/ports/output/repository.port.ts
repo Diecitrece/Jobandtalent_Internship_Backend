@@ -9,3 +9,9 @@ export interface UserRepository extends Repository<User> {
   getOneByEmail: (email: string) => Promise<User | undefined>;
 }
 export type CompanyRepository = Repository<Company>;
+
+export interface RefreshTokenRepository {
+  save: (idUser: string, token: string) => Promise<void>;
+  verify: (token: string) => Promise<boolean>;
+  remove: (token: string) => Promise<void>;
+}
