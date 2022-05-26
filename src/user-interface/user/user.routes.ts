@@ -97,7 +97,7 @@ userRouter.delete('/api/users/logout'),
   async (req: Request, res: Response): Promise<void> => {
     const { refreshToken } = req.body;
     if (!refreshToken) {
-      res.status(400).send('Refresh token not provided');
+      res.status(200);
     }
     await refreshTokenCases.remove(refreshToken);
     res.status(200);
