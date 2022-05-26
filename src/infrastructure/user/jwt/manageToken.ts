@@ -3,7 +3,7 @@ import jwt, { Secret, JwtPayload } from 'jsonwebtoken';
 import { UserRole } from '../../../core/domain/user.model';
 
 const secretKey = process.env.JWT_SECRET_KEY;
-const refreshSecretKey = process.env.JWT_REFRESH_SECRET_KET;
+const refreshSecretKey = process.env.JWT_REFRESH_SECRET_KEY;
 export const tokenManager = (): TokenPort => {
   const accessToken = async (item: tokenPayload): Promise<string> => {
     return jwt.sign(item, secretKey as Secret, { expiresIn: '15m' });
