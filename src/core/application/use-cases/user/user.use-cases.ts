@@ -58,6 +58,6 @@ export const userCases = (): UserCRUD => {
     }
     return undefined;
   };
-
+  
   return { create, getAll, getOne, login };
 };
